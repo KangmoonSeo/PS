@@ -1,3 +1,4 @@
 *.exe
 testplace
 testplace/*
+settings.json
