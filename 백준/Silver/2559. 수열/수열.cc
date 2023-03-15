@@ -23,7 +23,4 @@ int main() {
   }
   if (n == k) ans = arr[n];
   cout << ans;
-  return 0;
-
-
 }
