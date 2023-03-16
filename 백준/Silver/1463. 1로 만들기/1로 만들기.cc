@@ -13,7 +13,9 @@ int main() {
   int n;  // input
 
   cin >> n;
-  vector<int> dp(n + 1, 0);
+  vector<int> dp(n + 1,
+                 0);  // sol) 시간을 최소화하기 위한(O(n)) dynamic programming,
+                      // bottom-up 방식으로 배열을 만들어 중복을 피한다.
 
   for (size_t i = 2; i <= n; i++) {
     dp[i] = dp[i - 1] + 1;
