@@ -5,29 +5,24 @@
 #define max(a, b) (a > b ? a : b)
 using namespace std;
 
-int dp[301][2] = {};  // dp[i][0] : tol:1, dp[i][1] : tol:2
-int n;
-
 int stair(vector<int>& arr) {
-  if (n == 1)
-    return arr[0];
-  else if (n == 2)
-    return arr[0] + arr[1];
+  int dp[301] = {};
+  int len = arr.size();
 
-  dp[0][0] = arr[0];
-  dp[0][1] = 0;
-  dp[1][0] = arr[1];
-  dp[1][1] = arr[0] + arr[1];
+  dp[0] = arr[0];
+  if (len == 1) return dp[0];
+  dp[1] = arr[0] + arr[1];
+  if (len == 2) return dp[1];
+  dp[2] = arr[2] + max(arr[0], arr[1]);
+  if (len == 3) return dp[2];
 
-  int tmp;
-  for (int i = 2; i < n; i++) {
-    tmp = arr[i];
-    dp[i][0] = tmp + max(dp[i - 2][0], dp[i - 2][1]);
-    dp[i][1] = tmp + dp[i - 1][0];
+  for (int i = 3; i < len; i++) {
+    dp[i] =
+        arr[i] + max(dp[i - 2],
+                     arr[i - 1] + dp[i - 3]);  // max([0]+[-2], [0]+[-1]+[-3])
   }
 
-  int res = max(dp[n - 1][0], dp[n - 1][1]);
-  return res;
+  return dp[len - 1];
 }
 
 int main() {
@@ -37,7 +32,7 @@ int main() {
   cout.tie(0);
   // 실행속도 최적화 end
 
-  // input
+  int n;  // input
   cin >> n;
   vector<int> arr(n);
   for (int i = 0; i < n; i++) {
