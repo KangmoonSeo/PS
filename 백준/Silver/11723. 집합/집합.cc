@@ -5,12 +5,7 @@
 using namespace std;
 
 void set(int n) {
-  vector<int> _all(21);
-  for (int i = 0; i < 21; i++) _all[i] = i;
-  vector<int> _empty(21);
-
-  vector<int> arr(21);
-
+  int BIT = 0;
   string command;
   int input;
 
@@ -18,31 +13,31 @@ void set(int n) {
     cin >> command;
 
     if (command == "all") {
-      arr.assign(_all.begin(), _all.end());
+      BIT = (1 << 21) - 1;
       continue;
     }
     if (command == "empty") {
-      arr.assign(_empty.begin(), _empty.end());
+      BIT = 0;
       continue;
     }
     if (command == "add") {
       cin >> input;
-      arr[input] = input;
+      BIT = BIT | (1 << input);
       continue;
     }
     if (command == "remove") {
       cin >> input;
-      arr[input] = 0;
+      BIT = BIT & ~(1 << input);
       continue;
     }
     if (command == "check") {
       cin >> input;
-      cout << ((arr[input] == input) ? 1 : 0) << "\n";
+      cout << ((BIT & (1 << input)) ? 1 : 0) << "\n";
       continue;
     }
     if (command == "toggle") {
       cin >> input;
-      arr[input] = ((arr[input] == 0) ? input : 0);
+      BIT = BIT ^ (1 << input);
       continue;
     }
   }
