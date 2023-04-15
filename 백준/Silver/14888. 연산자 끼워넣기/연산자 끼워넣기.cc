@@ -15,7 +15,7 @@ int curMax = -1000000000;
 int curMin = 1000000000;
 
 // sol) 백트래킹을 활용한 알고리즘
-void recur(int ret, int idx, int curOps[]) {
+void recur(int ret, int idx) {
   if (idx == n) {  // 종결 조건; idx 전부 소모하면 max, min 비교
     curMax = max(curMax, ret);
     curMin = min(curMin, ret);
@@ -24,9 +24,9 @@ void recur(int ret, int idx, int curOps[]) {
 
   const int memRet = ret;
   for (int i = 0; i < 4; i++) {
-    if (curOps[i] == 0) continue;  // pruning; 백트래킹 핵심 부분 !!
+    if (ops[i] == 0) continue;  // pruning; 백트래킹 핵심 부분 !!
     ret = memRet; // 초기화
-    curOps[i]--;
+    ops[i]--;
     if (i == 0)
       ret += arr[idx];
     else if (i == 1)
@@ -35,8 +35,8 @@ void recur(int ret, int idx, int curOps[]) {
       ret *= arr[idx];
     else if (i == 3)
       ret /= arr[idx];
-    recur(ret, idx + 1, curOps);
-    curOps[i]++;
+    recur(ret, idx + 1);
+    ops[i]++;
   }
 }
 
@@ -55,6 +55,6 @@ int main() {
     cin >> ops[i];
   }
 
-  recur(arr[0], 1, ops);
+  recur(arr[0], 1);
   cout << curMax << "\n" << curMin << "\n";
 }
