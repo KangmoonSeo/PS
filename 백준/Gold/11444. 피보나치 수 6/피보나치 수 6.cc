@@ -6,10 +6,10 @@
 using namespace std;
 
 #define DIV 1000000007
-vector<pair<long long, long long> > dp;
+vector<pair<long long, long long> > dp;  // dp.first:key, dp.second:val
 
 long long fib(long long k) {
-  if (k < 2) return k;  // termination
+  if (k < 2) return k;  // termination 조건
   const int length = dp.size();
   for (int i = 0; i < length; i++) {  // dp 배열에 key가 있으면 즉시 return
     if (dp[i].first == k) return dp[i].second;
