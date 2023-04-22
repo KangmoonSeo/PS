@@ -16,7 +16,7 @@ int main() {
   cin >> n >> m;
 
   long long count[1001] = {0};
-  long long mem = 0;
+  int mem = 0;
 
   for (int i = 0; i < n; i++) {  // prefix Sum
     cin >> input;
@@ -24,10 +24,10 @@ int main() {
     mem %= m;
     count[mem]++;
   }
-  long long ans = 0;
+  long long ans = count[0];
   for (int i = 0; i < m; i++) {
     ans += count[i] * (count[i] - 1) / 2;  // count[i] Combination 2
   }
 
-  cout << ans + count[0] << "\n";
+  cout << ans << "\n";
 }
