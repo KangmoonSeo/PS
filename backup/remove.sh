@@ -1,0 +1,1 @@
+find . -mtime +7 -not -path "./vscode" -not -path "./.vscode/*" -not -path "./remove.sh" -not -path "./default.cpp" -delete
