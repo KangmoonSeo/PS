@@ -2,7 +2,7 @@
 #include <cctype>
 #include <cmath>
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <utility>
 #include <vector>
@@ -18,8 +18,8 @@ int main() {
   int n, m;  // input
   cin >> n >> m;
   string s_input;
-
-  map<string, int> i_data;
+  
+  unordered_map<string, int> i_data;
   vector<string> s_data(n + 1);
 
   for (int i = 1; i <= n; i++) {
