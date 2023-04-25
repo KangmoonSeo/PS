@@ -7,14 +7,13 @@
 #include <utility>
 #include <vector>
 using namespace std;
-typedef priority_queue<int, vector<int>, greater<int> > PQ;
 bool isVisited[100001] = {false};
-int arrCnt[100001] = {0};
-vector<PQ> arr(100001);
+vector<priority_queue<int, vector<int>, greater<int> > > adj(100001);
+int arrCnt[100001] = {0};  // 문제 조건
 
 void add(int a, int b) {
-  arr[a].push(b);
-  arr[b].push(a);
+  adj[a].push(b);
+  adj[b].push(a);
 }
 
 void bfs(int r, int n) {
@@ -24,19 +23,20 @@ void bfs(int r, int n) {
   int cnt = 0;
 
   while (!q.empty()) {
-    int val = q.front();
-    cnt++;
-    arrCnt[val] = cnt;
+    int x = q.front();
     q.pop();
-    int length = arr[val].size();
-    for (int j = 0; j < length; j++) {
-      if (isVisited[arr[val].top()]) {
-        arr[val].pop();
+    // 문제 조건, BFS 실행 순서 담기
+    arrCnt[x] = ++cnt;
+
+    int length = adj[x].size();
+    while (length--) {
+      if (isVisited[adj[x].top()]) {
+        adj[x].pop();
         continue;
       }
-      q.push(arr[val].top());
-      isVisited[arr[val].top()] = true;
-      arr[val].pop();
+      q.push(adj[x].top());
+      isVisited[adj[x].top()] = true;
+      adj[x].pop();
     }
   }
   for (int i = 1; i <= n; i++) {
