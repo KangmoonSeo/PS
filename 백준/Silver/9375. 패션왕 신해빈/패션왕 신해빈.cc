@@ -10,16 +10,15 @@ using namespace std;
 void wear() {
   int n;
   string s1, s2;
-  unordered_map<string, int> arr;
+  unordered_map<string, int> map;
   cin >> n;
   for (int i = 0; i < n; i++) {
     cin >> s1 >> s2;
-    arr[s2]++;
+    map[s2]++;
   }
   int result = 1;
-  for (unordered_map<string, int>::iterator iter = arr.begin();
-       iter != arr.end(); iter++) {
-    result *= (iter->second + 1);
+  for (auto iter : map) {
+    result *= (iter.second + 1);
   }
   result--;
   cout << result << "\n";
