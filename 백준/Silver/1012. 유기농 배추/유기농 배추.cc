@@ -6,10 +6,11 @@
 #include <utility>
 #include <vector>
 using namespace std;
+const int dx[4] = {1, 0, -1, 0};
+const int dy[4] = {0, 1, 0, -1};
 
-// {x,y|x~(0,49), y~(0,49)}; 0: none, 1: checked, 2:visited
+// {x,y|x in [0,49], y in [0,49]}; 0: none, 1: marked, 2:visited
 vector<vector<int> > place(50, vector<int>(50));  // adj array
-
 int m, n;
 
 bool isBoundary(int tx, int ty) {
@@ -19,33 +20,24 @@ bool isBoundary(int tx, int ty) {
 }
 
 int search(int x, int y) {
-  if (place[x][y] != 1) return 0;
-  place[x][y] = 2;
+  if (place[x][y] != 1) return 0;  // marked check
+  place[x][y] = 2;                 // visited
 
-  // bfs
+  // bfs start
   queue<pair<int, int> > q;
   q.push(make_pair(x, y));
   while (!q.empty()) {
     int tx = q.front().first;
     int ty = q.front().second;
     q.pop();
-    if (isBoundary(tx - 1, ty)) {
-      place[tx - 1][ty] = 2;  // visit
-      q.push(make_pair(tx - 1, ty));
-    }
-    if (isBoundary(tx + 1, ty)) {
-      place[tx + 1][ty] = 2;
-      q.push(make_pair(tx + 1, ty));
-    }
-    if (isBoundary(tx, ty - 1)) {
-      place[tx][ty - 1] = 2;
-      q.push(make_pair(tx, ty - 1));
-    }
-    if (isBoundary(tx, ty + 1)) {
-      place[tx][ty + 1] = 2;
-      q.push(make_pair(tx, ty + 1));
+    for (int i = 0; i < 4; i++) {
+      if (isBoundary(tx + dx[i], ty + dy[i])) {
+        place[tx + dx[i]][ty + dy[i]] = 2;  // visit
+        q.push(make_pair(tx + dx[i], ty + dy[i]));
+      }
     }
   }
+  // bfs end
   return 1;
 }
 
@@ -77,9 +69,9 @@ int main() {
   cout.tie(0);
   // 실행속도 최적화 end
 
-  int n;  // input
-  cin >> n;
-  for (int i = 0; i < n; i++) {
+  int T;  // input
+  cin >> T;
+  while (T--) {
     cabbage();
   }
 }
