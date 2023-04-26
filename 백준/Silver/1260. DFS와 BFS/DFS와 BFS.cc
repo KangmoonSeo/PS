@@ -11,19 +11,21 @@ int n;
 bool dfs_visit[1001] = {false};
 bool bfs_visit[1001] = {false};
 
-bool adj[1001][1001] = {false};
+vector<int> adj[1001];
 
 void add(int a, int b) {
-  adj[a][b] = true;
-  adj[b][a] = true;
+  adj[a].push_back(b);
+  adj[b].push_back(a);
 }
 
 void dfs(int r) {
   cout << r << " ";
   dfs_visit[r] = true;
-  for (int i = 1; i <= n; i++) {
-    if (!dfs_visit[i] && adj[r][i]) {
-      dfs(i);
+  const int length = adj[r].size();
+  for (int i = 0; i < length; i++) {  // adj list를 털어먹는 상황, 0부터 시작
+    int y = adj[r][i];
+    if (!dfs_visit[y]) {
+      dfs(y);
     }
   }
 }
@@ -36,10 +38,12 @@ void bfs(int r) {
     int x = q.front();
     cout << x << " ";
     q.pop();
-    for (int i = 1; i <= n; i++) {
-      if (!bfs_visit[i] && adj[x][i]) {
-        bfs_visit[i] = true;
-        q.push(i);
+    int length = adj[x].size();
+    for (int i = 0; i < length; i++) {  // adj list를 털어먹는 상황, 0부터 시작
+      int y = adj[x][i];
+      if (!bfs_visit[y]) {
+        bfs_visit[y] = true;
+        q.push(y);
       }
     }
   }
@@ -59,6 +63,9 @@ int main() {
   for (int i = 0; i < m; i++) {
     cin >> i1 >> i2;
     add(i1, i2);
+  }
+  for (int i = 1; i <= n; i++) {
+    sort(adj[i].begin(), adj[i].end());
   }
 
   dfs(v);
