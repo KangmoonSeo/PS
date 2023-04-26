@@ -8,10 +8,10 @@
 using namespace std;
 
 int n;
-bool dfs_visit[10001] = {false};
-bool bfs_visit[10001] = {false};
+bool dfs_visit[1001] = {false};
+bool bfs_visit[1001] = {false};
 
-bool adj[10001][10001] = {false};
+bool adj[1001][1001] = {false};
 
 void add(int a, int b) {
   adj[a][b] = true;
