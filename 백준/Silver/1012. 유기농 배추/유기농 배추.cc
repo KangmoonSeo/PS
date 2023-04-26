@@ -54,7 +54,7 @@ void cabbage() {
   cin >> m >> n >> k;
 
   place.clear();
-  place.assign(50, vector<int>(50));
+  place.assign(m, vector<int>(n));
 
   for (int i = 0; i < k; i++) {  // input pair
     cin >> x >> y;
