@@ -7,7 +7,7 @@
 #include <vector>
 using namespace std;
 
-void func(int n) {
+void solve(int n = 0) {
   // function acts here
   //
 }
