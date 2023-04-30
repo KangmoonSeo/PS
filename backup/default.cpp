@@ -14,9 +14,7 @@ void solve(int n = 0) {
 
 int main() {
   // 실행속도 최적화 start
-  ios::sync_with_stdio(false);
-  cin.tie(0);
-  cout.tie(0);
+  ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
   // 실행속도 최적화 end
 
   int n;  // input
