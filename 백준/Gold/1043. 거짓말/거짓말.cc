@@ -1,10 +1,4 @@
-#include <algorithm>
-#include <cmath>
-#include <iostream>
-#include <set>
-#include <string>
-#include <utility>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
 int n, m, t1, p1;
