@@ -7,7 +7,7 @@
 #include <vector>
 using namespace std;
 
-int n, m, t1, p1;  // input
+int n, m, t1, p1;
 set<int> t2;
 vector<vector<int> > p2;
 
@@ -21,19 +21,16 @@ bool integrity_check(int input, bool isExist) {
 
 void solve() {
   int len1 = p2.size();
-  int cnt = len1;
-
-  for (int i = 0; i < len1; i++) {
+  for (int i = 0; i < len1; i++) {  // n < 50 -> loop 개수 상관 X
     int len2 = p2[i].size();
     for (int j = 0; j < len2; j++) {
       for (int it : t2) {
-        if (p2[i][j] == it) {
-          // delete p2[i] row
+        if (p2[i][j] == it) {  // delete p2[i] and recur
           for (int k = 0; k < len2; k++) {
-            t2.insert(p2[i][k]);
+            t2.insert(p2[i][k]);  // insert p2[i] into t2
           }
-          p2.erase(p2.begin() + i);
-          solve();
+          p2.erase(p2.begin() + i);  // delete p2[i]
+          solve();                   // recur
           return;
         }
       }
@@ -44,9 +41,7 @@ void solve() {
 
 int main() {
   // 실행속도 최적화 start
-  ios::sync_with_stdio(false);
-  cin.tie(0);
-  cout.tie(0);
+  ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
   // 실행속도 최적화 end
 
   cin >> n >> m;
@@ -75,6 +70,6 @@ int main() {
     } else {
       p2.push_back(tmp);
     }
-  }  
+  }
   solve();
 }
