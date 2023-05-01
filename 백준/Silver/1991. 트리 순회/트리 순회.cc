@@ -1,34 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-map<char, pair<char, char> > arr;
-
-void traverse(char ch, int mode) {
-  if (ch == '.') return;
-  if (mode == 0) cout << ch;
-  traverse(arr[ch].first, mode);
-  if (mode == 1) cout << ch;
-  traverse(arr[ch].second, mode);
-  if (mode == 2) cout << ch;
+map<char, pair<char, char> > a;
+void t(char c, int i) {
+  if (c == '.') return;
+  if (i == 0) cout << c;
+  t(a[c].first, i);
+  if (i == 1) cout << c;
+  t(a[c].second, i);
+  if (i == 2) cout << c;
 }
-
-void solve() {
+int main() {
+  int n;
+  cin >> n;
+  char p;
+  while (n--) cin >> p >> a[p].first >> a[p].second;
   for (int i = 0; i < 3; i++) {
-    traverse('A', i);
+    t('A', i);
     cout << "\n";
   }
-}
-
-int main() {
-  ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);  // optimization
-
-  int n;  // input
-  cin >> n;
-  char c1, c2, c3;
-  while (n--) {
-    cin >> c1 >> c2 >> c3;
-    arr[c1].first = c2;
-    arr[c1].second = c3;
-  }
-  solve();
 }
