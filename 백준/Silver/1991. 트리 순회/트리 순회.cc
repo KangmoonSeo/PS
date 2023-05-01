@@ -3,7 +3,7 @@ using namespace std;
 
 map<char, pair<char, char> > arr;
 
-void traverse(char ch, int mode) {  // mode:0, 1, 2
+void traverse(char ch, int mode) {
   if (ch == '.') return;
   if (mode == 0) cout << ch;
   traverse(arr[ch].first, mode);
@@ -11,19 +11,16 @@ void traverse(char ch, int mode) {  // mode:0, 1, 2
   traverse(arr[ch].second, mode);
   if (mode == 2) cout << ch;
 }
-void solve(int n = 0) {
-  traverse('A', 0);
-  cout << "\n";
-  traverse('A', 1);
-  cout << "\n";
-  traverse('A', 2);
-  cout << "\n";
+
+void solve() {
+  for (int i = 0; i < 3; i++) {
+    traverse('A', i);
+    cout << "\n";
+  }
 }
 
 int main() {
-  ios::sync_with_stdio(false);
-  cin.tie(0);
-  cout.tie(0);  // optimization
+  ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);  // optimization
 
   int n;  // input
   cin >> n;
