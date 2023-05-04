@@ -2,8 +2,8 @@
 using namespace std;
 
 void solve(int n = 0) {
-  vector<long long> arr;
-  long long input;
+  vector<int> arr;
+  int input;
   while (n--) {
     cin >> input;
 
