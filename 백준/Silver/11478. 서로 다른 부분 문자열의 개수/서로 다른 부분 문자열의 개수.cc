@@ -2,13 +2,13 @@
 using namespace std;
 
 void solve(string const s) {
-  map<string, bool> m;
+  unordered_set<string> m;
   int length = s.size();
   string tmp;
   for (int l = 1; l <= length; l++) {
     for (int i = 0; i <= length - l; i++) {
       tmp.assign(s.begin() + i, s.begin() + i + l);
-      m[tmp] = true;
+      m.insert(tmp);
     }
   }
   cout << m.size() << "\n";
