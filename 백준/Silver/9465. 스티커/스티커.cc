@@ -5,9 +5,9 @@ using namespace std;
 void sticker() {
   int n;
   cin >> n;
-  vector<vector<int> > arr(n + 1, vector<int>(2));
-  vector<vector<int> > dp(n + 1, vector<int>(2));
-
+  int arr[100001][2];
+  int dp[100001][2];
+  
   for (int i = 0; i < 2; i++) {
     for (int j = 1; j <= n; j++) {
       cin >> arr[j][i];
