@@ -8,9 +8,9 @@ void recur(int TTL) {
   if (TTL == 0) {
     int length = arr.size();
     for (int i = 0; i < length; i++) {
-      cout << arr[i] << " ";
+      printf("%d ", arr[i]);
     }
-    cout << "\n";
+    printf("\n");
     return;
   }
 
