@@ -14,7 +14,13 @@ void recur(int TTL) {
     return;
   }
 
-  int b = arr.back();
+  int b;
+  if (arr.empty()) {
+    b = 1;
+  } else {
+    b = arr.back();
+  }
+
   for (int i = b; i <= n; i++) {
     arr.push_back(i);
     recur(TTL - 1);
@@ -26,10 +32,5 @@ int main() {
   ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);  // optimization
 
   cin >> n >> m;
-
-  for (int i = 1; i <= n; i++) {
-    arr.push_back(i);
-    recur(m - 1);
-    arr.pop_back();
-  }
+  recur(m);
 }
