@@ -7,11 +7,6 @@ using namespace std;
 int D[101][101];
 int n;
 
-void add(int a, int b, int n = 1) {
-  if (D[a][b] == 0) D[a][b] = n;
-  D[a][b] = min(D[a][b], n);
-}
-
 void print() {
   for (int i = 1; i <= n; i++) {
     for (int j = 1; j <= n; j++) {
@@ -47,10 +42,9 @@ int main() {
   cin >> n >> m;
 
   fill(&D[0][0], &D[100][101], MAX_);
-
   while (m--) {
     cin >> i1 >> i2 >> i3;
-    add(i1, i2, i3);
+    D[i1][i2] = min(D[i1][i2], i3);
   }
   solve();
 }
