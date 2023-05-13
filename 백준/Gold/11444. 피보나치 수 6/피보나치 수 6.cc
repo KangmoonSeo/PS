@@ -6,29 +6,27 @@
 using namespace std;
 
 #define DIV 1000000007
-vector<pair<long long, long long> > dp;  // dp.first:key, dp.second:val
+vector<pair<long long, long long> > dp;
 
 long long fib(long long k) {
-  if (k < 2) return k;  // termination 조건
-  const int length = dp.size();
-  for (int i = 0; i < length; i++) {  // dp 배열에 key가 있으면 즉시 return
-    if (dp[i].first == k) return dp[i].second;
+  if (k < 2) return k;
+  for (int i = 0; i < dp.size(); i++) {
+    if (dp[i].first == k) {
+      return dp[i].second;
+    }
   }
-
-  const long long val1 = fib((k + 1) / 2) % DIV;
-  const long long val2 = fib((k - 1) / 2) % DIV;
   long long ret;
+  long long val1 = fib((k + 1) / 2) % DIV;
+  long long val2 = fib((k - 1) / 2) % DIV;
 
-  if (k % 2 == 0) {  // fib(26) = fib(13)fib(13) + 2*fib(13)fib(12)
-    ret = val1 * val1 + val1 * val2 * 2;
-  } else {  // fib(25) = fib(13)fib(13) + fib(12)fib(12)
+  if (k % 2 == 0) {  // fibo(26) -> fibo(13)fibo(13) + 2*fibo(13)*fibo(12)
+    ret = val1 * val1 + 2 * val1 * val2;
+  } else {  // 25-> fibo(13)fibo(13) + fibo(12)fibo(12)
     ret = val1 * val1 + val2 * val2;
   }
-  ret %= DIV;
-  // 중복 실행 막기 위해 <key, val>를 저장
-  const pair<long long, long long> save = make_pair(k, ret);
-  dp.push_back(save);
-  return ret;
+  pair<long long, long long> tmp = make_pair(k, ret);
+  dp.push_back(tmp);
+  return ret % DIV;
 }
 
 int main() {
