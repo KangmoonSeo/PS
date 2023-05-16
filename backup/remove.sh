@@ -2,7 +2,7 @@
 ## 실행 파일, 폴더 내 7일이 지난 파일을 삭제하는 script
 
 ## config
-__PATH="~/PS/testplace"
+__PATH=~/PS/testplace
 
 ## deletion
 find ${__PATH} -mtime +7 -not -path "${__PATH}/remove.sh" -not -path "${__PATH}/default.cpp" -delete
