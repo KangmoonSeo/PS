@@ -5,11 +5,9 @@ const int dz[6] = {1, 0, 0, -1, 0, 0};
 const int dy[6] = {0, 1, 0, 0, -1, 0};
 const int dx[6] = {0, 0, 1, 0, 0, -1};
 int z, y, x;
-vector<vector<vector<int> > > arr(102,
-                                  vector<vector<int> >(102,
-                                                       vector<int>(102, -1)));
-
+int arr[102][102][102];
 void tomato() {
+  fill_n(arr[0][0], 102 * 102 * 102, -1);
   queue<tuple<int, int, int> > q;
   int ans = 1;
   // input
