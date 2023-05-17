@@ -5,11 +5,13 @@ int n, k;
 
 void solve() {
   bool visited[200003] = {};
-  queue<pair<int, int> > q;
   int ans = 0;
+  int endTime = 100001;
+
+  queue<pair<int, int> > q;
   q.push(make_pair(n, 0));
   visited[n] = true;
-  int endTime = 100001;
+
   while (!q.empty()) {
     int curX = q.front().first;
     int t = q.front().second;
