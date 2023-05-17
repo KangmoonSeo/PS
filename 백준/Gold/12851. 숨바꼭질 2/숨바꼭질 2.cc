@@ -4,7 +4,7 @@ using namespace std;
 int n, k;
 
 void solve() {
-  map<int, bool> visited;
+  bool visited[200003] = {};
   queue<pair<int, int> > q;
   int ans = 0;
   q.push(make_pair(n, 0));
@@ -22,13 +22,13 @@ void solve() {
       endTime = t;
       ans++;
     } else {
-      if (!visited[curX + 1] && curX < k) {
+      if (curX < k && !visited[curX + 1]) {
         q.push(make_pair(curX + 1, t + 1));
       }
-      if (!visited[curX * 2] && curX < k) {
+      if (curX < k && !visited[curX * 2]) {
         q.push(make_pair(curX * 2, t + 1));
       }
-      if (!visited[curX - 1] && curX > 0) {
+      if (curX >= 1 && !visited[curX - 1]) {
         q.push(make_pair(curX - 1, t + 1));
       }
     }
