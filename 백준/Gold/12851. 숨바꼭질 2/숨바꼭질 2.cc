@@ -4,7 +4,7 @@ using namespace std;
 int n, k;
 
 void solve() {
-  bool visited[200003] = {};
+  bool visited[133334] = {};
   int ans = 0;
   int endTime = 100001;
 
@@ -27,7 +27,7 @@ void solve() {
       if (curX < k && !visited[curX + 1]) {
         q.push(make_pair(curX + 1, t + 1));
       }
-      if (curX < k && !visited[curX * 2]) {
+      if (curX < 66667 && !visited[curX * 2]) {
         q.push(make_pair(curX * 2, t + 1));
       }
       if (curX >= 1 && !visited[curX - 1]) {
