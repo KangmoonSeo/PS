@@ -2,8 +2,8 @@
 using namespace std;
 
 int n;
-vector<vector<int> > adj(100001, vector<int>());
-vector<int> parent(100001, 0);
+vector<int> adj[100001];
+vector<int> pa(100001, 0);
 
 void solve() {
   // input
@@ -15,24 +15,22 @@ void solve() {
   }
   // bfs
   queue<int> q;
-  parent[1] = 1;
+  pa[1] = 1;
   q.push(1);
   while (!q.empty()) {
     int p = q.front();
     q.pop();
-    vector<int> vec = adj[p];
-    int length = vec.size();
-    for (int i = 0; i < length; i++) {
-      int t = vec[i];
-      if (parent[t] == 0) {
-        parent[t] = p;
-        q.push(t);
+
+    for (auto it : adj[p]) {
+      if (pa[it] == 0) {
+        pa[it] = p;
+        q.push(it);
       }
     }
   }
   // output
   for (int k = 2; k <= n; k++) {
-    cout << parent[k] << "\n";
+    cout << pa[k] << "\n";
   }
 }
 
