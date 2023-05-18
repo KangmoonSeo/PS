@@ -7,7 +7,7 @@ void solve() {
   string str;
   cin >> str;
   // 누적합 전처리
-  unordered_map<char, int> m[200001];
+  vector<vector<int> > m(200001, vector<int>('z' + 1));
   int length = str.size();
 
   m[0][str[0]]++;
