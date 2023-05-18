@@ -1,20 +1,18 @@
 #include <bits/stdc++.h>
-
-#include <unordered_map>
 using namespace std;
 
 void solve() {
   string str;
   cin >> str;
   // 누적합 전처리
-  vector<vector<int> > m(200001, vector<int>('z' + 1));
+  vector<vector<int> > m(200001, vector<int>('z' - 'a' + 1));
   int length = str.size();
 
-  m[0][str[0]]++;
+  m[0][str[0] - 'a']++;
   for (int i = 1; i <= length; i++) {
-    char t = str[i];
+    char t = str[i] - 'a';
 
-    for (int j = 'a'; j <= 'z'; j++) {
+    for (int j = 0; j <= 'z' - 'a'; j++) {
       m[i][j] = m[i - 1][j];
       if (t == j) m[i][j]++;
     }
@@ -26,6 +24,7 @@ void solve() {
   int i2, i3;
   while (q--) {
     cin >> c1 >> i2 >> i3;
+    c1 -= 'a';
     if (i2 == 0)
       cout << m[i3][c1] << "\n";
     else
