@@ -5,23 +5,23 @@ typedef pair<int, int> pii;
 #define distance first
 #define vertex second
 #define MAX_V 1001
-int n, m;
+int n, m;  // n=V, m=E
 
 void dijkstra() {
-  vector<pii> adj[MAX_V];
+  vector<pii> adj[MAX_V];  // V개의 pii sequence를 저장하는 adj List
   int dist[MAX_V];
   fill_n(dist, MAX_V, 1e9);
 
-  int ss, ee, dd;
+  int i_s, i_e, i_d;  // i_start, i_end, i_distance
   while (m--) {
-    cin >> ss >> ee >> dd;
-    adj[ss].push_back(make_pair(dd, ee));  // { dist, vertex }
+    cin >> i_s >> i_e >> i_d;
+    adj[i_s].push_back(make_pair(i_d, i_e));  // { dist, vertex }
   };
   int start, end;
   cin >> start >> end;
 
   priority_queue<pii, vector<pii>, greater<pii> > pq;
-  pq.push(make_pair(0, start));  // { dist, vertex }
+  pq.push(make_pair(0, start));
   dist[start] = 0;
 
   while (!pq.empty()) {
@@ -33,14 +33,12 @@ void dijkstra() {
     if (curdist > dist[cur]) continue;
 
     int length = adj[cur].size();
-    for (int i = 0; i < length; i++) {
-      int nxt = adj[cur][i].vertex;
-      int nxtdist = curdist + adj[cur][i].distance;
-
-      // (nxtdist < 저장된 값) 이면 저장값 update, queue에 push
+    for (auto it : adj[cur]) {
+      int nxt = it.vertex;
+      int nxtdist = it.distance + curdist;
       if (nxtdist < dist[nxt]) {
-        dist[nxt] = nxtdist;
-        pq.push(make_pair(dist[nxt], nxt));
+        dist[nxt] = nxtdist;                 // distance update
+        pq.push(make_pair(dist[nxt], nxt));  // queue에 pair push
       }
     }
   }
