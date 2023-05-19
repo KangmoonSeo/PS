@@ -2,43 +2,44 @@
 using namespace std;
 
 typedef pair<int, int> pii;
-#define _dist first
-#define _v second
+#define distance first
+#define vertex second
 #define MAX_V 1001
-#define MAX_W 1e9
 int n, m;
 
 void dijkstra() {
-  vector<vector<pii> > adj(MAX_V);
-  vector<int> dist(MAX_V, MAX_W);
+  vector<pii> adj[MAX_V];
+  int dist[MAX_V];
+  fill_n(dist, MAX_V, 1e9);
 
   int ss, ee, dd;
   while (m--) {
     cin >> ss >> ee >> dd;
-    adj[ss].push_back(make_pair(dd, ee));
+    adj[ss].push_back(make_pair(dd, ee));  // { dist, vertex }
   };
-  int init, end;
-  cin >> init >> end;
+  int start, end;
+  cin >> start >> end;
 
-  priority_queue<pii, vector<pii>, greater<pii> > pq;  // { dist, vertex }
-  pq.push(make_pair(0, init));
-  dist[init] = 0;
+  priority_queue<pii, vector<pii>, greater<pii> > pq;
+  pq.push(make_pair(0, start));  // { dist, vertex }
+  dist[start] = 0;
 
   while (!pq.empty()) {
-    int cur = pq.top()._v;
-    int curdist = pq.top()._dist;
+    int cur = pq.top().vertex;
+    int curdist = pq.top().distance;
     pq.pop();
 
-    if (curdist > dist[cur]) continue;  // curdist가 저장값보다 작으면 진행
+    // 현재 distance가 저장된 dist보다 작으면 loop 진행
+    if (curdist > dist[cur]) continue;
 
     int length = adj[cur].size();
     for (int i = 0; i < length; i++) {
-      int nxt = adj[cur][i]._v;
-      int nxtdist = curdist + adj[cur][i]._dist;
+      int nxt = adj[cur][i].vertex;
+      int nxtdist = curdist + adj[cur][i].distance;
 
-      // nxtdist가 저장값보다 작으면 push
-      if (dist[nxt] > curdist + adj[cur][i]._dist) {
-        dist[nxt] = curdist + adj[cur][i]._dist;
+      // (nxtdist < 저장된 값) 이면 저장값 update, queue에 push
+      if (nxtdist < dist[nxt]) {
+        dist[nxt] = nxtdist;
         pq.push(make_pair(dist[nxt], nxt));
       }
     }
