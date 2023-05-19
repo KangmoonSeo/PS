@@ -13,10 +13,10 @@ void dijkstra() {
   fill_n(dist, MAX_V, 1e9);
   int start;
   cin >> start;
-  int i_s, i_e, i_d;  // i_start, i_end, i_distance
+  int i1, i2, i3;  // start vertex, end vertex, direct distance
   while (m--) {
-    cin >> i_s >> i_e >> i_d;
-    adj[i_s].push_back(make_pair(i_d, i_e));  // { dist, vertex }
+    cin >> i1 >> i2 >> i3;
+    adj[i1].push_back(make_pair(i3, i2));  // { dist, vertex }
   };
 
   priority_queue<pii, vector<pii>, greater<pii> > pq;
@@ -24,16 +24,19 @@ void dijkstra() {
   dist[start] = 0;
 
   while (!pq.empty()) {
-    pii p = pq.top();
+    int cur_dist = pq.top().distance;  // queue에서 제일 작은 distance
+    int cur = pq.top().vertex;  // queue에서 distance가 제일 작은 pair의 vertex
     pq.pop();
-    // 저장된 dist가 queue에서 꺼낸 값보다 작으면 skip
-    if (dist[p.vertex] < p.distance) continue;
 
-    for (pii it : adj[p.vertex]) {  // dist를 최소로 만들기 위한 loop
-      int nxt = it.vertex;
-      if (it.distance + p.distance < dist[nxt]) {
-        dist[nxt] = it.distance + p.distance;  // dist update
-        pq.push(make_pair(dist[nxt], nxt));    // queue에 pair push
+    // 저장된 dist가 queue에서 꺼낸 dist보다 작으면 skip
+    if (dist[cur] < cur_dist) continue;
+
+    for (pii p : adj[cur]) {
+      // i->cur까지의 거리 후보 = i->p.vertex 거리 + p.vertex->cur 거리
+      int new_dist = p.distance + cur_dist;
+      if (new_dist < dist[p.vertex]) {  // 새 dist가 저장된 dist보다 작으면 갱신
+        dist[p.vertex] = new_dist;
+        pq.push(make_pair(new_dist, p.vertex));  // queue에 pair push
       }
     }
   }
