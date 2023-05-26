@@ -2,37 +2,46 @@
 using namespace std;
 typedef pair<int, int> pii;
 int n, k;
-int dist[200003];
-
+bool visited[200001] = {};
+void push_zero(int cnt, int x,
+               priority_queue<pii, vector<pii>, greater<pii> >& q) {
+  int nx = x * 2;
+  if (nx <= 200000 && !visited[nx]) {
+    visited[nx] = true;
+    q.push(make_pair(cnt, nx));
+    push_zero(cnt, nx, q);
+  }
+}
 void solve() {
-  fill_n(dist, 200001, 1e9);
-  priority_queue<pii, vector<pii>, greater<pii> > pq;
-  pq.push(make_pair(0, n));
-  dist[n] = 0;
-  while (!pq.empty()) {
-    int cnt = pq.top().first;
-    int x = pq.top().second;
-    pq.pop();
-    if (dist[x] < cnt) continue;
+  int ans = 0;
+  priority_queue<pii, vector<pii>, greater<pii> > q;
+  q.push(make_pair(0, n));
+  visited[n] = true;
+  while (!q.empty()) {
+    int cnt = q.top().first;
+    int x = q.top().second;
 
+    q.pop();
+    // termination
+    if (x == k) {
+      ans = cnt;
+      break;
+    }
+    push_zero(cnt, x, q);
     int nx;
-    nx = x * 2;
-    if (nx >= 0 && nx <= 200001 && dist[nx] > cnt) {
-      dist[nx] = cnt;
-      pq.push(make_pair(dist[nx], nx));
+    nx = x - 1;  // x-1 (1s)
+    if (nx >= 0 && nx <= 200000 && !visited[nx]) {
+      visited[nx] = true;
+      q.push(make_pair(cnt + 1, nx));
     }
-    nx = x - 1;
-    if (nx >= 0 && nx <= 200001 && dist[nx] > cnt + 1) {
-      dist[nx] = cnt + 1;
-      pq.push(make_pair(dist[nx], nx));
-    }
-    nx = x + 1;
-    if (nx >= 0 && nx <= 200001 && dist[nx] > cnt + 1) {
-      dist[nx] = cnt + 1;
-      pq.push(make_pair(dist[nx], nx));
+
+    nx = x + 1;  // x+1 (1s)
+    if (nx >= 0 && nx <= 200000 && !visited[nx]) {
+      visited[nx] = true;
+      q.push(make_pair(cnt + 1, nx));
     }
   }
-  cout << dist[k] << "\n";
+  cout << ans << "\n";
 }
 
 int main() {
