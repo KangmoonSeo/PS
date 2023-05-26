@@ -5,10 +5,6 @@ int n, k;
 int dist[200003];
 
 void solve() {
-  if (n - k > 0) {
-    cout << n - k << "\n";
-    return;
-  }
   fill_n(dist, 200001, 1e9);
   priority_queue<pii, vector<pii>, greater<pii> > pq;
   pq.push(make_pair(0, n));
@@ -21,17 +17,17 @@ void solve() {
 
     int nx;
     nx = x * 2;
-    if (nx >= 0 && nx <= k * 2 && dist[nx] > cnt) {
+    if (nx >= 0 && nx <= 200001 && dist[nx] > cnt) {
       dist[nx] = cnt;
       pq.push(make_pair(dist[nx], nx));
     }
     nx = x - 1;
-    if (nx >= 0 && nx <= k * 2 && dist[nx] > cnt + 1) {
+    if (nx >= 0 && nx <= 200001 && dist[nx] > cnt + 1) {
       dist[nx] = cnt + 1;
       pq.push(make_pair(dist[nx], nx));
     }
     nx = x + 1;
-    if (nx >= 0 && nx <= k * 2 && dist[nx] > cnt + 1) {
+    if (nx >= 0 && nx <= 200001 && dist[nx] > cnt + 1) {
       dist[nx] = cnt + 1;
       pq.push(make_pair(dist[nx], nx));
     }
