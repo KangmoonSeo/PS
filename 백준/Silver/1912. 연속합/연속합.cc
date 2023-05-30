@@ -11,12 +11,8 @@ void solve() {
   for (int i = 1; i <= n; i++) {
     cin >> pSum[i];
     pSum[i] += pSum[i - 1];
-    if (min_val > pSum[i]) {
-      dp[i] = max(dp[i - 1], pSum[i] - min_val);
-      min_val = pSum[i];
-    } else {
-      dp[i] = max(dp[i - 1], pSum[i] - min_val);
-    }
+    dp[i] = max(dp[i - 1], pSum[i] - min_val);
+    min_val = min(min_val, pSum[i]);
     if (i == 1) dp[i] = pSum[i];
   }
   cout << dp[n] << "\n";
