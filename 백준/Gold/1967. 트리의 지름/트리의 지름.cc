@@ -7,7 +7,6 @@ int n;
 vector<pair<int, int> > nodes[10001];  // contains {child, weight}
 int l[10001] = {};
 int r[10001] = {};
-int sum[10001] = {};
 int ans = 0;
 
 void dfs(int v) {
@@ -23,8 +22,7 @@ void dfs(int v) {
       r[v] = max(r[v], n_l);
     }
   }
-  sum[v] = l[v] + r[v];
-  ans = max(sum[v], ans);
+  ans = max(l[v] + r[v], ans);
 }
 void solve() {
   int par, chi, wei;
@@ -33,7 +31,6 @@ void solve() {
     nodes[par].push_back(make_pair(chi, wei));
   }
   dfs(1);
-
   cout << ans << "\n";
 }
 
