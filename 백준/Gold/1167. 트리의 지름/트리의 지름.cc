@@ -4,28 +4,30 @@
 using namespace std;
 
 int n;
-vector<pair<int, int> > nodes[100001];  // contains {child, weight}
-int l[100001] = {};
-int r[100001] = {};
+vector<pair<int, int> > adj[100001];  // contains {child, weight}
 bool visited[100001] = {};
 int ans = 0;
 
-void dfs(int v) {
-  int length = nodes[v].size();
+int dfs(int v) {
+  int length = adj[v].size();
+  int dist = 0;
+  int mem = 0;
+
   for (int i = 0; i < length; i++) {
-    pair<int, int> p = nodes[v][i];
+    pair<int, int> p = adj[v][i];
     if (visited[p.child]) continue;
     visited[p.child] = true;
-    dfs(p.child);  // get l[p.child]
-    int n_l = l[p.child] + p.weight;
-    if (l[v] < n_l) {
-      r[v] = l[v];
-      l[v] = n_l;
+    int d = dfs(p.child);  // get dist from p.child
+    int n_dist = d + p.weight;
+    if (dist < n_dist) {
+      mem = dist;
+      dist = n_dist;
     } else {
-      r[v] = max(r[v], n_l);
+      mem = max(mem, n_dist);
     }
   }
-  ans = max(l[v] + r[v], ans);
+  ans = max(dist + mem, ans);
+  return dist;
 }
 void solve() {
   int par, chi, wei;
@@ -34,7 +36,7 @@ void solve() {
     cin >> chi;
     while (chi > 0) {
       cin >> wei;
-      nodes[par].push_back(make_pair(chi, wei));
+      adj[par].push_back(make_pair(chi, wei));
       cin >> chi;
     }
   }
