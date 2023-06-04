@@ -7,7 +7,7 @@ vector<pii> adj[801];
 int dist[801];
 
 int dijkstra(int start, int end) {
-  fill_n(dist, 801, 1e9);
+  fill_n(dist, 801, 1e8);
   priority_queue<pii, vector<pii>, greater<pii> > pq;
   pq.push(make_pair(0, start));
   dist[start] = 0;
@@ -29,24 +29,10 @@ int dijkstra(int start, int end) {
 }
 
 void solve() {
-  int res1, res2;
-  int a1 = dijkstra(1, v1);
-  int a2 = dijkstra(v1, v2);
-  int a3 = dijkstra(v2, n);
-  if (a1 > 1e8 || a2 > 1e8 || a3 > 1e8)
-    res1 = 1e9;
-  else
-    res1 = a1 + a2 + a3;
+  int res1 = dijkstra(1, v1) + dijkstra(v1, v2) + dijkstra(v2, n);
+  int res2 = dijkstra(1, v2) + dijkstra(v2, v1) + dijkstra(v1, n);
 
-  int b1 = dijkstra(1, v2);
-  int b2 = dijkstra(v2, v1);
-  int b3 = dijkstra(v1, n);
-  if (b1 > 1e8 || b2 > 1e8 || b3 > 1e8)
-    res2 = 1e9;
-  else
-    res2 = b1 + b2 + b3;
-
-  if (res1 > 1e8 && res2 > 1e8)
+  if (res1 > 1e7 && res2 > 1e7)
     cout << -1 << "\n";
   else
     cout << min(res1, res2) << "\n";
