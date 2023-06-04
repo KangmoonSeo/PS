@@ -227,7 +227,19 @@ void dijkstra(int start) {
   }
 }
  ```
+ #### dijkstra에서의 경로 추적
  
+ 각 정점의 부모를 기록해 두고, 이를 역추적하면 경로를 알 수 있다. // O(n)
+ ```cpp
+ // ...
+     if (new_dist < dist[p.vertex]) { 
+        dist[p.vertex] = new_dist;
+        parent[p.second] = cur; // new!
+        pq.push(make_pair(new_dist, p.vertex));  
+      }
+ // ...
+ ```
+
 ### 벨만-포드 (1:N)
 > 시간복잡도: O(EV)
  
