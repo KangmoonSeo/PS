@@ -31,11 +31,11 @@ int dijkstra(int start, int end) {
 void solve() {
   int res1 = dijkstra(1, v1) + dijkstra(v1, v2) + dijkstra(v2, n);
   int res2 = dijkstra(1, v2) + dijkstra(v2, v1) + dijkstra(v1, n);
-
-  if (res1 > 1e7 && res2 > 1e7)
-    cout << -1 << "\n";
+  int ans = min(res1, res2);
+  if (ans > 1e7)
+    cout << "-1\n";
   else
-    cout << min(res1, res2) << "\n";
+    cout << ans << "\n";
 }
 
 int main() {
