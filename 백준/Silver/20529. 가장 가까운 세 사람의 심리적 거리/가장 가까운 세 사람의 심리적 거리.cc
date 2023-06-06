@@ -1,11 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n;
-int arr[32] = {};
 const char mbti[4] = {'I', 'S', 'T', 'J'};
+int n, b[32];
 
-int getLength(int a, int b) {
+int dist(int a, int b) {
   int BIT = a ^ b;
   int ret = 0;
   while (BIT > 0) {
@@ -14,11 +13,11 @@ int getLength(int a, int b) {
   }
   return ret;
 }
+
 void solve() {
-  fill_n(arr, 32, 0);
   cin >> n;
   string input;
-  if (n > 32) {  // 2 * 16 + 1
+  if (n > 32) {  // n > 2 * 16
     while (n--) {
       cin >> input;
     }
@@ -26,22 +25,22 @@ void solve() {
     return;
   }
 
-  for (int i = 0; i < n; i++) {  // max n = 32 -> brute force
+  // n < 33 => brute force
+  fill_n(b, 32, 0);
+  for (int i = 0; i < n; i++) {
     cin >> input;
     for (int j = 0; j < 4; j++) {
-      arr[i] += (input[j] == mbti[j]) << j;  // convert mbti to bit
+      b[i] += (input[j] == mbti[j]) << j;  // convert mbti to bit
     }
   }
-  int t1, t2, t3, sum, ans = 12;
-  for (int i = 0; i < n; i++) {
-    t1 = arr[i];
+  int t1, t2, t3, sum;
+  int ans = 12;
+  for (int i = 0; i < n; i++) {  // nC3
     for (int j = i + 1; j < n; j++) {
-      t2 = arr[j];
       for (int k = j + 1; k < n; k++) {
-        t3 = arr[k];
-        sum = getLength(t1, t2) + getLength(t2, t3) + getLength(t3, t1);
+        sum = dist(b[i], b[j]) + dist(b[j], b[k]) + dist(b[k], b[i]);
         ans = min(ans, sum);
-        if (ans == 0) i = n, j = n, k = n;  // break;
+        if (ans == 0) i = n, j = n, k = n;  // break all loop
       }
     }
   }
