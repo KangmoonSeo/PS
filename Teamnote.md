@@ -310,21 +310,20 @@ void floid(vector<vector<int>>& W, vector<vector<int>>& D) {
 
 이때 간선의 개수는 V-1개이며, 각 간선의 가중치 존재 여부는 상관하지 않음
 
-**최소 신장 트리**는 무방향 가중 그래프에서, 간선의 가중치 합이 최소인 신장 트리를 의미함
+**최소 신장 트리**는 무방향 가중 그래프에서, 신장 트리를 이루는 간선의 가중치 합이 최소인 경우를 가르킴
 
-무방향 가중 그래프에서 최소 신장 트리는 여러 케이스가 나올 수 있음. 즉 최소 신장 트리는 유일하지 않음
+하나의 무방향 가중 그래프는 여러 가지의 최소 신장 트리를 가짐. 즉 최소 신장 트리는 유일하지 않음
 
 ### 최소 신장 트리의 구현
 
-최소 신장 트리는 가중치 무방향 그래프를 이루는 간선 집합에서, 최소 신장 트리의 간선 집합을 선별하여 구현함
+가중치 무방향 그래프를 이루는 간선 집합에서 비용이 최소인 간선 중 적합한 경우를 선별하여 최소 신장 트리로 만듦
 
 - input: 가중치 무방향 그래프의 간선 집합 
-- output: 최소 신장 트리의 간선 집합 또는 트리의 root 노드 
+- output: 최소 신장 트리의 간선 집합 (또는 최소 신장 트리의 root)
 
-최소 신장 트리는 Kruskal, Prim 알고리즘으로 구현할 수 있음
+최소 신장 트리는 Kruskal 알고리즘, Prim 알고리즘으로 구현할 수 있음
 
-
-### 크루스칼 (with 유니온 파인드)
+### 크루스칼
 > 시간복잡도: O(ElogV)
  
 모든 정점을 개별적인 트리로 선언한 후, V-1번의 유니온 파인드로 트리를 병합해나가는 알고리즘
@@ -340,9 +339,15 @@ void floid(vector<vector<int>>& W, vector<vector<int>>& D) {
 
 #### 분리 집합 (유니온 파인드)
 : disjoint set (union find)
+> 시간복잡도: 최적화시 O(α(N)) ~ O(1)
 
-p[u] : 트리의 부모, 재귀적으로 호출해 root를 불러옴. `p[u] == -1`인 경우 노드 u가 root임이 보장됨
-h[u] : **root가 u인 트리**의 높이, 두 트리의 높이를 비교하여 높이가 낮은 트리가 높은 트리에 병합됨
+- `p[u]` : 트리의 부모 번호, `p[u] == -1`인 경우 노드 u가 root임이 보장됨
+
+- `h[u]` : **root가 u인 트리**의 높이, 두 트리의 높이를 비교하여 높이가 낮은 트리가 높은 트리에 병합됨
+
+- `void find_root(int u)` : p[u] == -1이 될 때 까지 함수를 재귀적으로 호출해 root의 번호를 불러오는 함수
+
+- `bool union_root(int u, int v)` : u 트리와 v 트리가 같은 트리면 tree를 반환하고, 다른 트리면 병합한 후 false를 반환하는 함수
 
 ```cpp
 int p[MAX_V];       // saves parent number, -1: root
@@ -355,11 +360,11 @@ int find_root(int u) {
 bool union_root(int u, int v) {
   u = find_root(u); 
   v = find_root(v);
-  if (u == v) return true;
+  if (u == v) return true; // it is same tree
   if (h[u] > h[v]) swap(u, v); // h[u] < h[v]로 만듦
   p[u] = v;
   if (h[u] == h[v]) h[v]++;
-  return false;
+  return false; // union completed
 }
 void solve() {
   fill_n(p, MAX_V, -1); // 초기에 모든 정점을 root로 만듦
@@ -375,13 +380,57 @@ void solve() {
 ```
 
 #### 크루스칼 알고리즘 구현
+- input: 가중치 무방향 그래프의 간선 집합 (edge)
+- output: 최소 신장 트리의 가중치 합 (ans)
+
 ```cpp
-
-
+int n, m;
+pair<int, pair<int, int> > edge[MAX_E]; // { w, {u, v} }
+int p[MAX_V];       // saves parent number
+int h[MAX_V] = {};  // height
+int find_root(int u) {
+  if (p[u] == -1) return u;
+  p[u] = find_root(p[u]);
+  return p[u];
+}
+bool union_root(int u, int v) {
+  u = find_root(u);
+  v = find_root(v);
+  if (u == v) return true;
+  if (h[u] > h[v]) swap(u, v);
+  p[u] = v;
+  if (h[u] == h[v]) h[v]++;
+  return false;
+}
+void solve() {
+  int ans = 0;
+  // kruskal with disjoint set
+  fill_n(p, MAX_V, -1);
+  sort(edge, edge + MAX_E);
+  int cnt = 0;
+  for (int i = 0; i < m; i++) {
+    pair<int, pair<int, int> > e = edge[i];
+    int w = e.first;
+    int u = e.second.first; 
+    int v = e.second.second;  
+    if (union_root(u, v)) continue; // disjoint set
+    ans += w; // 가중치의 합을 구함
+    if (cnt++ >= n - 1) break; // n-1
+  }
+  cout << ans << "\n";
+}
 ```
 
 ### 프림 (with priority queue)
+> 시간복잡도: O(V^2) 또는 O(ElogV)
 
+트리를 하나의 정점에서 시작, 주변 간선 중 최소 가중치를 선택해 확장해나가는 그리디 알고리즘
+
+`dist[u]` 배열을 선언하여 루프를 V-1번 반복, 루프마다 초기 정점부터 근처 정점까지의 거리를 갱신함
+
+이때 dist가 최소인 간선과 그 도착점을 지정, 최소 신장 트리에 병합함
+
+최소 신장 트리에 포함되는 정점은 `visited[u]`값을 true로 전환
 
 --- 
 ## 백트래킹
@@ -389,9 +438,9 @@ void solve() {
 백트래킹 알고리즘은 가능한 모든 후보 해를 탐색하면서 해를 찾는 알고리즘이다. 
  
 주어진 조건을 만족하는 해를 찾기 위해 한 후보를 선택하고, 해당 후보가 조건을 만족하지 않으면 이전 상태로 돌아가 다른 후보를 선택하는 방식으로 진행된다. 
-  
+
 이러한 되추적(backtracking)을 통해 모든 가능성을 조사하며 해를 찾는데 사용된다.
-                            
+
 #### 백트래킹 예시 - N과 M; 수열 오름차순 경우의 수 찾기 
 
 ```cpp
