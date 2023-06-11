@@ -1,6 +1,6 @@
 # Teamnote for PS
 - c++17 기준으로 작성했습니다. 
-<!-- update: 23.05.19. -->
+<!-- update: 23.06.11. -->
  
 ## 목차
 0. [기본 함수](#기본-함수)
@@ -304,13 +304,85 @@ void floid(vector<vector<int>>& W, vector<vector<int>>& D) {
  ```
 ---
 ## 최소 신장 트리
-: Minimum Spanning Tree
-                            
-### 크루스칼 (with disjoint set)
-                                      
-                            
+: MST(Minimum Spanning Tree)
+
+**신장 트리**는 무방향 그래프에서 모든 정점을 포함하는 간선을 선택하여 만들어짐
+
+이때 간선의 개수는 V-1개이며, 각 간선의 가중치 존재 여부는 상관하지 않음
+
+**최소 신장 트리**는 무방향 가중 그래프에서, 간선의 가중치 합이 최소인 신장 트리를 의미함
+
+무방향 가중 그래프에서 최소 신장 트리는 여러 케이스가 나올 수 있음. 즉 최소 신장 트리는 유일하지 않음
+
+### 최소 신장 트리의 구현
+
+최소 신장 트리는 가중치 무방향 그래프를 이루는 간선 집합에서, 최소 신장 트리의 간선 집합을 선별하여 구현함
+
+- input: 가중치 무방향 그래프의 간선 집합 
+- output: 최소 신장 트리의 간선 집합 또는 트리의 root 노드 
+
+최소 신장 트리는 Kruskal, Prim 알고리즘으로 구현할 수 있음
+
+
+### 크루스칼 (with 유니온 파인드)
+> 시간복잡도: O(ElogV)
+ 
+모든 정점을 개별적인 트리로 선언한 후, V-1번의 유니온 파인드로 트리를 병합해나가는 알고리즘
+
+초기에 모든 정점은 root node가 되는 트리로 변환됨, V-1번의 반복문에서 비용이 최소인 간선에 대해 검증을 거침
+
+최소 비용 간선의 시작 노드가 u, 도착 노드가 v일 때 먼저 u와 v의 트리가 같은 트리인지 검증함 (root가 같으면 같은 트리)
+
+만약 두 트리가 다른 트리라면 유니온 파인드로 u가 포함된 트리와 v가 포함된 트리를 병합함
+
+즉, 시작 노드와 도착 노드의 root가 다른 경우에만 병합 과정이 일어남 (동일 트리 내에 있다면 병합하지 않음)
+
+
+#### 분리 집합 (유니온 파인드)
+: disjoint set (union find)
+
+p[u] : 트리의 부모, 재귀적으로 호출해 root를 불러옴. `p[u] == -1`인 경우 노드 u가 root임이 보장됨
+h[u] : **root가 u인 트리**의 높이, 두 트리의 높이를 비교하여 높이가 낮은 트리가 높은 트리에 병합됨
+
+```cpp
+int p[MAX_V];       // saves parent number, -1: root
+int h[MAX_V] = {};  // height
+int find_root(int u) {
+  if (p[u] == -1) return u; // p[u] == -1 <-> 자신이 root임
+  p[u] = find_root(p[u]);
+  return p[u];
+}
+bool union_root(int u, int v) {
+  u = find_root(u); 
+  v = find_root(v);
+  if (u == v) return true;
+  if (h[u] > h[v]) swap(u, v); // h[u] < h[v]로 만듦
+  p[u] = v;
+  if (h[u] == h[v]) h[v]++;
+  return false;
+}
+void solve() {
+  fill_n(p, MAX_V, -1); // 초기에 모든 정점을 root로 만듦
+  int u, v;
+  for (int i = 0; i < m; i++) {
+    cin >> u >> v;
+    if (union_root(u, v)) {  
+      // 병합이 일어났을 때 실행되는 block
+    }
+  }
+  //
+}
+```
+
+#### 크루스칼 알고리즘 구현
+```cpp
+
+
+```
+
 ### 프림 (with priority queue)
-                            
+
+
 --- 
 ## 백트래킹
 
