@@ -1,6 +1,6 @@
 *.exe
-testplace
-testplace/*
+playground
+playground/*
 .vscode
 .vscode/*
 .DS_Store
