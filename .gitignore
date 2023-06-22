@@ -1,6 +1,4 @@
 *.exe
-playground
-playground/*
-.vscode
-.vscode/*
+playground/
+.vscode/
 .DS_Store
