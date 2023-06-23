@@ -1,25 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define y first
+#define x second
+#define WALL 1
 typedef pair<int, int> pii;
 const int dy[4] = {1, 0, -1, 0};
 const int dx[4] = {0, 1, 0, -1};
 
 int n, m;
-queue<pii> contamPoint;
-vector<pii> zeroPoint;
-vector<vector<int> > arr(10, vector<int>(10, 1));  // initial space
-vector<vector<int> > space;
+vector<pii> zeros;
+queue<pii> contams;
+vector<vector<int> > arr(10, vector<int>(10, WALL));  // initial input
+vector<vector<int> > sp;                              // space for simulation
 
 void simulate() {
-  queue<pii> q = contamPoint;
+  queue<pii> q = contams;
   while (!q.empty()) {
     pii p = q.front();
     q.pop();
     for (int i = 0; i < 4; i++) {
-      int ny = p.first + dy[i];
-      int nx = p.second + dx[i];
-      if (space[ny][nx] == 0) {
-        space[ny][nx] = 2;
+      int ny = p.y + dy[i];
+      int nx = p.x + dx[i];
+      if (sp[ny][nx] == 0) {  // no 'visited' array
+        sp[ny][nx] = 2;
         q.push({ny, nx});
       }
     }
@@ -29,21 +32,21 @@ int countZero() {
   int ret = 0;
   for (int j = 1; j <= n; j++) {
     for (int i = 1; i <= m; i++) {
-      if (space[j][i] == 0) ret++;
+      if (sp[j][i] == 0) ret++;
     }
   }
   return ret;
 }
 void solve() {
   int ans = 0;
-  int length = zeroPoint.size();
+  int length = zeros.size();
   for (int i = 0; i < length; i++) {
     for (int j = i + 1; j < length; j++) {
       for (int k = j + 1; k < length; k++) {
-        space = arr;
-        space[zeroPoint[i].first][zeroPoint[i].second] = 1;
-        space[zeroPoint[j].first][zeroPoint[j].second] = 1;
-        space[zeroPoint[k].first][zeroPoint[k].second] = 1;
+        sp = arr;
+        sp[zeros[i].y][zeros[i].x] = WALL;
+        sp[zeros[j].y][zeros[j].x] = WALL;
+        sp[zeros[k].y][zeros[k].x] = WALL;
         simulate();
         ans = max(ans, countZero());
       }
@@ -59,8 +62,8 @@ int main() {
   for (int j = 1; j <= n; j++) {
     for (int i = 1; i <= m; i++) {
       cin >> arr[j][i];
-      if (arr[j][i] == 0) zeroPoint.push_back({j, i});
-      if (arr[j][i] == 2) contamPoint.push({j, i});
+      if (arr[j][i] == 0) zeros.push_back({j, i});  // for brute force
+      if (arr[j][i] == 2) contams.push({j, i});     // for bfs
     }
   }
   solve();
@@ -68,5 +71,5 @@ int main() {
 
 /*
  * 23.06.23. 16:52 start
- * 23.06.23. 17:20 end
+ * 23.06.23. 17:29 end
  */
