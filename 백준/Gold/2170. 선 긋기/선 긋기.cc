@@ -4,16 +4,16 @@
 using namespace std;
 typedef pair<int, int> pii;
 int n;
+pii arr[1000001];
 
-vector<pii> vec;
 void solve() {
-  sort(vec.begin(), vec.end());  // O(NlogN)
+  sort(arr, arr + n);  // O(NlogN)
   int ans = 0;
-  pii p = vec[0];
+  pii p = arr[0];
   int init = p.u;
   int mem = p.v;
   for (int i = 1; i < n; i++) {  // O(N)
-    p = vec[i];
+    p = arr[i];
     // add length
     if (mem < p.u) {
       ans += mem - init;
@@ -32,7 +32,7 @@ int main() {
   int x, y;
   for (int i = 0; i < n; i++) {
     cin >> x >> y;
-    vec.push_back({x, y});
+    arr[i] = {x, y};
   }
   solve();
 }
