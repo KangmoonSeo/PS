@@ -55,10 +55,12 @@ cout << get<2>(tupleValue); // tupleValue v3 호출
 vector<int> getPrime(int n) {
   vector<int> set;
   vector<bool> isPrime(n + 1, true);
-  for (int i = 2; i <= n; i++) {
+  set.push_back(2);
+  for (int i = 3; i <= n; i += 2) { // 2의 배수 탐색 X
     if (!isPrime[i]) continue;
     set.push_back(i);
-    for (int j = i; j <= n; j += i) isPrime[j] = false;
+    if (i > sqrt(n)) continue;
+    for (int j = i * i; j <= n; j += i) isPrime[j] = false;
   }
   return set;
 }
