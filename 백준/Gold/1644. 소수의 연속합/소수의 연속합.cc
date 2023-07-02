@@ -3,20 +3,15 @@ using namespace std;
 
 int n;
 
-vector<int> getSeq() {
-  // 에라토스테네스의 체
-  bool prime[4000001];
-  fill_n(prime, 4000001, true);
-
-  vector<int> ret;
+vector<int> getPrime() {
+  vector<int> set;
+  bool isNotPrime[4000001] = {};
   for (int i = 2; i <= n; i++) {
-    if (!prime[i]) continue;
-    ret.push_back(i);
-    for (int j = i; j <= n; j += i) {
-      prime[j] = false;
-    }
+    if (isNotPrime[i]) continue;
+    set.push_back(i);
+    for (int j = i; j <= n; j += i) isNotPrime[j] = true;
   }
-  return ret;
+  return set;
 }
 
 void solve() {
@@ -24,7 +19,7 @@ void solve() {
     cout << "0\n";
     return;
   }
-  vector<int> seq = getSeq();
+  vector<int> seq = getPrime();
 
   int len = seq.size();
   int l = 0, r = 1;
