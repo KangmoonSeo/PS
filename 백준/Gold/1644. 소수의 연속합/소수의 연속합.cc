@@ -5,16 +5,15 @@ int n;
 
 vector<int> getSeq() {
   // 에라토스테네스의 체
-  vector<int> tmp;
+  bool prime[4000001];
+  fill_n(prime, 4000001, true);
+
   vector<int> ret;
-  for (int i = 0; i <= n; i++) {
-    tmp.push_back(i);
-  }
   for (int i = 2; i <= n; i++) {
-    if (tmp[i] == 0) continue;
+    if (!prime[i]) continue;
     ret.push_back(i);
-    for (int j = 1; i * j <= n; j++) {
-      tmp[i * j] = 0;
+    for (int j = i; j <= n; j += i) {
+      prime[j] = false;
     }
   }
   return ret;
@@ -26,6 +25,7 @@ void solve() {
     return;
   }
   vector<int> seq = getSeq();
+
   int len = seq.size();
   int l = 0, r = 1;
   int sum = seq[l];  // [l, r)
