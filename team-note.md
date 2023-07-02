@@ -1,6 +1,6 @@
 # team-note for PS
 - c++17 기준으로 작성했습니다. 
-<!-- update: 23.06.24. -->
+<!-- update: 23.07.02. -->
  
 ## 목차
 0. [기본 함수](#기본-함수)
@@ -16,7 +16,7 @@
 10. [투 포인터](#투-포인터)
 <!-- 10. [라인스위핑](#라인스위핑) --> <!-- 12. [LIS](#lis) --><!--9. [이분탐색](#이분탐색)--> <!-- 11. [펜윅트리](#펜윅트리) -->
 
-## 기본 함수
+## 기본 함수 및 구현
 
 - 형변환
 ```cpp
@@ -29,6 +29,7 @@ int val = c - '0'; // char to int
 ```cpp
 str.substr(int pos=0, int length);
 ```
+
 - 자료구조
 ```cpp
 fill_n(T* first, int n, T elem); // 배열 또는 벡터를 elem으로 초기화
@@ -46,6 +47,21 @@ priority_queue<T, vector<T>, cmp> pq;
 // tuple
 tuple<T1, T2, T3> tupleValue = make_tuple(v1, v2, v3);
 cout << get<2>(tupleValue); // tupleValue v3 호출 
+```
+
+- N까지의 소수 구하기 : 에라토스테네스의 체
+> 시간복잡도 : O( n loglogn )
+```cpp
+vector<int> getPrime(int n) {
+  vector<int> set;
+  vector<bool> isPrime(n + 1, true);
+  for (int i = 2; i <= n; i++) {
+    if (!isPrime[i]) continue;
+    set.push_back(i);
+    for (int j = i; j <= n; j += i) isPrime[j] = false;
+  }
+  return set;
+}
 ```
 --- 
 ## 누적합
