@@ -9,12 +9,13 @@ void solve() {
     return;
   }
   vector<int> seq;
-  bool isNotPrime[4000001] = {};
+  vector<bool> isPrime(n + 1, true);
   seq.push_back(2);
   for (int i = 3; i <= n; i += 2) {
-    if (isNotPrime[i]) continue;
+    if (!isPrime[i]) continue;
     seq.push_back(i);
-    for (int j = i; j <= n; j += i) isNotPrime[j] = true;
+    if (i > 2001) continue;
+    for (int j = i; j <= n; j += i) isPrime[j] = false;
   }
 
   int len = seq.size();
