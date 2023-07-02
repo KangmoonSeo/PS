@@ -14,8 +14,8 @@ void solve() {
   for (int i = 3; i <= n; i += 2) {
     if (!isPrime[i]) continue;
     seq.push_back(i);
-    if (i > 2001) continue;
-    for (int j = i; j <= n; j += i) isPrime[j] = false;
+    if (i > 2001) continue;  // i > sqrt(n)
+    for (int j = i * i; j <= n; j += i) isPrime[j] = false;
   }
 
   int len = seq.size();
