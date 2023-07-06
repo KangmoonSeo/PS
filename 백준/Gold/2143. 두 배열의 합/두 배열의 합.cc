@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-
 #include <unordered_map>
 using namespace std;
 typedef long long ll;
@@ -11,14 +10,11 @@ unordered_map<int, int> aa;
 unordered_map<int, int> bb;
 
 void solve() {
-  cin >> T;
-  cin >> n;
+  cin >> T >> n;
   for (int i = 1; i <= n; i++) {
     cin >> a[i];
     a[i] += a[i - 1];
-  }
-  for (int i = 1; i <= n; i++) {
-    for (int j = 0; j < i; j++) {
+    for (int j = 0; j < i; j++) {  // O(N^2)
       aa[a[i] - a[j]]++;
     }
   }
@@ -27,18 +23,15 @@ void solve() {
   for (int i = 1; i <= m; i++) {
     cin >> b[i];
     b[i] += b[i - 1];
-  }
-  for (int i = 1; i <= m; i++) {
-    for (int j = 0; j < i; j++) {
+    for (int j = 0; j < i; j++) {  // O(M^2)
       bb[b[i] - b[j]]++;
     }
   }
+
   ll ans = 0;
-  for (auto it : aa) {
+  for (auto it : aa) {  // O(N^2)
     if (bb[T - it.first] > 0) {
-      ll tmp = it.second;
-      tmp *= bb[T - it.first];
-      ans += tmp;
+      ans += (ll)it.second * (ll)bb[T - it.first];
     }
   }
   cout << ans << "\n";
