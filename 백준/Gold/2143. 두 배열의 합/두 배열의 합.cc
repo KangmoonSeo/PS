@@ -1,13 +1,12 @@
 #include <bits/stdc++.h>
-#include <unordered_map>
 using namespace std;
 typedef long long ll;
 
 int T, n, m;
 int a[1001] = {};
 int b[1001] = {};
-unordered_map<int, int> aa;
-unordered_map<int, int> bb;
+vector<int> aa;
+vector<int> bb;
 
 void solve() {
   cin >> T >> n;
@@ -15,7 +14,7 @@ void solve() {
     cin >> a[i];
     a[i] += a[i - 1];
     for (int j = 0; j < i; j++) {  // O(N^2)
-      aa[a[i] - a[j]]++;
+      aa.push_back(a[i] - a[j]);
     }
   }
 
@@ -24,21 +23,24 @@ void solve() {
     cin >> b[i];
     b[i] += b[i - 1];
     for (int j = 0; j < i; j++) {  // O(M^2)
-      bb[b[i] - b[j]]++;
+      bb.push_back(b[i] - b[j]);
     }
   }
+  sort(aa.begin(), aa.end());
+  sort(bb.begin(), bb.end());
 
   ll ans = 0;
-  for (auto it : aa) {  // O(N^2)
-    if (bb[T - it.first] > 0) {
-      ans += (ll)it.second * (ll)bb[T - it.first];
-    }
+
+  for (int it : aa) {  // O(NlogM)
+    int target = T - it;
+    ans += upper_bound(bb.begin(), bb.end(), target) -
+           lower_bound(bb.begin(), bb.end(), target);
   }
   cout << ans << "\n";
 }
 
 int main() {
-  ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);  // optimization
+  ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);  // FastIO
 
   solve();
 }
