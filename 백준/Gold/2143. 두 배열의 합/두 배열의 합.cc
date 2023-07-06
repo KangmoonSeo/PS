@@ -4,11 +4,11 @@
 using namespace std;
 typedef long long ll;
 
-ll T, n, m;
-ll a[1001] = {};
-ll b[1001] = {};
-unordered_map<ll, ll> aa;
-unordered_map<ll, ll> bb;
+int T, n, m;
+int a[1001] = {};
+int b[1001] = {};
+unordered_map<int, int> aa;
+unordered_map<int, int> bb;
 
 void solve() {
   cin >> T;
@@ -35,8 +35,10 @@ void solve() {
   }
   ll ans = 0;
   for (auto it : aa) {
-    if (bb[T - it.first] > 0) { 
-      ans += it.second * bb[T - it.first];
+    if (bb[T - it.first] > 0) {
+      ll tmp = it.second;
+      tmp *= bb[T - it.first];
+      ans += tmp;
     }
   }
   cout << ans << "\n";
