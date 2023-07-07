@@ -2,16 +2,16 @@
 using namespace std;
 
 int n, MAX_X = 0;
-int x[100001] = {};      // x value of user
 int user[1000001] = {};  // user number of x
 int score[100001] = {};  // score of user
 
 void solve() {
+  int x;
   for (int i = 1; i <= n; i++) {
-    cin >> x[i];
-    user[x[i]] = i;
-    MAX_X = max(x[i], MAX_X);
-    if (x[i] == 1) {
+    cin >> x;
+    user[x] = i;
+    MAX_X = max(x, MAX_X);
+    if (x == 1) {
       fill_n(score, 100001, -1);
       score[i] = n - 1;
     }
