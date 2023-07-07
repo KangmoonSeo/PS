@@ -11,12 +11,8 @@ void solve() {
     cin >> x;
     user[x] = i;
     MAX_X = max(x, MAX_X);
-    if (x == 1) {
-      fill_n(score, 100001, -1);
-      score[i] = n - 1;
-    }
   }
-  for (int x_i = 2; x_i <= MAX_X; x_i++) {
+  for (int x_i = 1; x_i <= MAX_X; x_i++) {
     if (user[x_i] <= 0) continue;
     for (int x_j = x_i * 2; x_j <= MAX_X; x_j += x_i) {
       if (user[x_j] > 0) {
