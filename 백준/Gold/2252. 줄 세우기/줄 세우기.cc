@@ -1,19 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef pair<int, int> pii;
 
 int n, m;
 vector<int> adj[32001];
 int cnt[32001] = {};
-bool visited[32001] = {};
-vector<int> seq;
-
-int find() {
-  for (int i = 1; i <= n; i++) {
-    if (!visited[i] && cnt[i] == 0) return i;
-  }
-  return -1;
-}
 
 void solve() {
   int u, v;
@@ -23,18 +13,19 @@ void solve() {
     cnt[v]++;
     adj[u].push_back(v);
   }
-
-  for (int i = 0; i < n; i++) {
-    int cur = find();
-    visited[cur] = true;
-    seq.push_back(cur);
-    for (int it : adj[cur]) {
-      cnt[it]--;
-    }
+  queue<int> q;
+  for (int i = 1; i <= n; i++) {
+    if (cnt[i] == 0) q.push(i);
   }
 
-  for (int it : seq) {
-    cout << it << " ";
+  while (!q.empty()) {
+    int cur = q.front();
+    q.pop();
+    for (int it : adj[cur]) {
+      cnt[it]--;
+      if (cnt[it] == 0) q.push(it);
+    }
+    cout << cur << " ";
   }
   cout << "\n";
 }
