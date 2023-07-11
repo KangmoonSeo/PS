@@ -1,29 +1,27 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define y first
-#define x second
-typedef pair<int, int> pii;
-int n, m;
-char arr[1002][1002] = {};
-int visited[1002][1002] = {};
 
-int cnt = 0;
+int n, m, key = 0, visited[1000][1000] = {};
+char arr[1000][1000] = {};
 
-bool dfs(pii p) {
-  pii np;
-  if (arr[p.y][p.x] == 'U') {
-    np = {p.y - 1, p.x};
-  } else if (arr[p.y][p.x] == 'D') {
-    np = {p.y + 1, p.x};
-  } else if (arr[p.y][p.x] == 'L') {
-    np = {p.y, p.x - 1};
+bool dfs(int y, int x) {
+  int ny = y;
+  int nx = x;
+
+  if (arr[y][x] == 'U') {
+    ny--;
+  } else if (arr[y][x] == 'D') {
+    ny++;
+  } else if (arr[y][x] == 'L') {
+    nx--;
   } else {
-    np = {p.y, p.x + 1};
+    nx++;
   }
-  if (visited[np.y][np.x] == 0) {
-    visited[np.y][np.x] = cnt;
-    return dfs(np);
-  } else if (visited[np.y][np.x] == cnt) {
+
+  if (visited[ny][nx] == 0) {
+    visited[ny][nx] = key;
+    return dfs(ny, nx);
+  } else if (visited[ny][nx] == key) {
     return true;
   } else {
     return false;
@@ -32,12 +30,12 @@ bool dfs(pii p) {
 
 void solve() {
   int ans = 0;
-  for (int j = 1; j <= n; j++) {
-    for (int i = 1; i <= m; i++) {
+  for (int j = 0; j < n; j++) {
+    for (int i = 0; i < m; i++) {
       if (visited[j][i] == 0) {
-        cnt++;
-        visited[j][i] = cnt;
-        if (dfs({j, i})) ans++;
+        key++;
+        visited[j][i] = key;
+        if (dfs(j, i)) ans++;
       }
     }
   }
@@ -49,10 +47,10 @@ int main() {
 
   cin >> n >> m;
   string input;
-  for (int j = 1; j <= n; j++) {
+  for (int j = 0; j < n; j++) {
     cin >> input;
-    for (int i = 1; i <= m; i++) {
-      arr[j][i] = input[i - 1];
+    for (int i = 0; i < m; i++) {
+      arr[j][i] = input[i];
     }
   }
   solve();
