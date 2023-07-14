@@ -4,9 +4,8 @@ using namespace std;
 int n, m;
 vector<int> adj[32001];
 int cnt[32001] = {};
-vector<int> ans;
+
 void solve() {
-  // function works here
   while (m--) {
     int u, v;
     cin >> u >> v;
@@ -20,18 +19,13 @@ void solve() {
   while (!pq.empty()) {
     int x = pq.top();
     pq.pop();
-    ans.push_back(x);
+    cout << x << " ";
 
     for (int it : adj[x]) {
-      cnt[it]--;
-      if (cnt[it] == 0) {
+      if (--cnt[it] == 0) {
         pq.push(it);
       }
     }
-  }
-
-  for (int i = 0; i < n; i++) {
-    cout << ans[i] << " ";
   }
   cout << "\n";
 }
