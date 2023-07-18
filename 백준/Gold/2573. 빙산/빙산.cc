@@ -6,15 +6,13 @@ typedef pair<int, int> pii;
 const int dy[4] = {0, 1, 0, -1};
 const int dx[4] = {1, 0, -1, 0};
 
-int n, m;
-int arr[302][302];
+int n, m, arr[302][302];
 pii start = {0, 0};
-bool shrink() {
+void shrink() {
   bool visited[302][302] = {};
   queue<pii> q;
   q.push(start);
   visited[start.y][start.x] = true;
-  start = {0, 0};
   while (!q.empty()) {
     pii p = q.front();
     q.pop();
@@ -36,22 +34,16 @@ bool shrink() {
       arr[p.y][p.x] = 0;
     }
   }
-  if (start.y == 0)
-    return false;
-  else
-    return true;
 }
 int checkDist() {
-  bool isEmpty = true;
-  bool flag = false;
-  bool visited[302][302] = {};
+  bool isEmpty = true, isDist = false, visited[302][302] = {};
 
-  for (int j = 1; j <= n; j++) {
-    for (int i = 1; i <= m; i++) {
+  for (int j = 2; j < n; j++) {
+    for (int i = 2; i < m; i++) {
       if (arr[j][i] > 0 && !visited[j][i]) {
         isEmpty = false;
-        if (flag) return 1;  // dist
-        flag = true;
+        if (isDist) return 1;  // dist
+        isDist = true;
         // bfs start
         queue<pii> q;
         visited[j][i] = true;
@@ -72,26 +64,22 @@ int checkDist() {
       }
     }
   }
-  if (isEmpty)
-    return 0;  // empty
-  else
-    return -1;  // continue
+  return isEmpty ? 0 : -1;  // empty or not
 }
 
 void solve() {
   int T = 0;
   while (++T) {
     shrink();
-    int end = checkDist();  // returns -1: continue, 0:empty, 1: distinct
-
-    if (end == 1) {
-      break;
-    } else if (end == 0) {
-      T = 0;
+    int isDist = checkDist();  // 0:empty, 1: dist
+    if (isDist == 1) {
+      cout << T << "\n";
+      return;
+    } else if (isDist == 0) {
+      cout << "0\n";
       break;
     }
   }
-  cout << T << "\n";
 }
 
 int main() {
