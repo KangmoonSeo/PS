@@ -1,26 +1,25 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n;
-int raw[51];
-int rev[51];
+int n, m, raw[51], rev[51];
 
 vector<int> cmp;
 vector<vector<int> > ans;
 
 bool detect() {
-  int tmp[101];
+  int tmp[101];  // cmp + cmp
   for (int i = 0; i < n; i++) {
     tmp[i] = cmp[i];
     tmp[n + i] = cmp[i];
   }
+
   for (int i = 0; i < n; i++) {
-    bool f_raw = true, f_rev = true, ret = true;
+    bool isRaw = 1, isRev = 1, ret = 1;
     for (int j = 0; j < n; j++) {
-      f_raw &= tmp[j + i] == raw[j];
-      f_rev &= tmp[j + i] == rev[j];
-      if (f_raw || f_rev) continue;
-      ret = false;
+      isRaw &= tmp[j + i] == raw[j];
+      isRev &= tmp[j + i] == rev[j];
+      if (isRaw || isRev) continue;
+      ret = 0;
       break;
     }
     if (ret) return true;
@@ -29,9 +28,8 @@ bool detect() {
 }
 
 void solve() {
-  cmp = vector<int>(n);
-  int m;
   cin >> m;
+  cmp = vector<int>(n);
   while (m--) {
     for (int i = 0; i < n; i++) {
       cin >> cmp[i];
@@ -39,9 +37,9 @@ void solve() {
     if (detect()) ans.push_back(cmp);
   }
 
-  int length = ans.size();
-  cout << length << "\n";
-  for (int i = 0; i < length; i++) {
+  int len = ans.size();
+  cout << len << "\n";
+  for (int i = 0; i < len; i++) {
     for (int it : ans[i]) {
       cout << it << " ";
     }
