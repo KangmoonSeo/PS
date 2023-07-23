@@ -14,23 +14,14 @@ bool detect() {
     tmp[i] = cmp[i];
     tmp[n + i] = cmp[i];
   }
-
   for (int i = 0; i < n; i++) {
-    bool f_raw = true;
-    bool f_rev = true;
-    bool ret = true;
-
+    bool f_raw = true, f_rev = true, ret = true;
     for (int j = 0; j < n; j++) {
-      if (tmp[j + i] != raw[j]) {
-        f_raw = false;
-      }
-      if (tmp[j + i] != rev[j]) {
-        f_rev = false;
-      }
-      if (!f_raw && !f_rev) {
-        ret = false;
-        break;
-      }
+      f_raw &= tmp[j + i] == raw[j];
+      f_rev &= tmp[j + i] == rev[j];
+      if (f_raw || f_rev) continue;
+      ret = false;
+      break;
     }
     if (ret) return true;
   }
@@ -45,10 +36,9 @@ void solve() {
     for (int i = 0; i < n; i++) {
       cin >> cmp[i];
     }
-    if (detect()) {
-      ans.push_back(cmp);
-    }
+    if (detect()) ans.push_back(cmp);
   }
+
   int length = ans.size();
   cout << length << "\n";
   for (int i = 0; i < length; i++) {
