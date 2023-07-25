@@ -2,58 +2,47 @@
 using namespace std;
 
 int n;
-vector<vector<string> > vec(10, vector<string>(0));
-vector<vector<string> > ans(10, vector<string>(0));
-string tmp = "";
+string str = "";
 
-void makeSet(int i = 1) {
-  tmp += (i + '0');
-  vec[i].push_back(tmp);
-  if (i < 9) {
-    tmp += ' ';
-    makeSet(i + 1);
-    tmp.pop_back();
+void check() {
+  int sum = 0;
+  string mem = "";
+  mem += str[0];
+  bool isPlus = true;
 
-    tmp += '+';
-    makeSet(i + 1);
-    tmp.pop_back();
-
-    tmp += '-';
-    makeSet(i + 1);
-    tmp.pop_back();
-  }
-  tmp.pop_back();
-}
-
-void calc() {
-  for (string s : vec[n]) {
-    int sum = 0;
-    string mem = "";
-    bool isPlus = true;
-    mem += s[0];
-
-    for (int i = 2; i < s.size(); i += 2) {
-      if (s[i - 1] == '+') {
-        sum += isPlus ? stoi(mem) : stoi(mem) * -1;
-        isPlus = true;
-        mem = "";
-      } else if (s[i - 1] == '-') {
-        sum += isPlus ? stoi(mem) : stoi(mem) * -1;
-        isPlus = false;
-        mem = "";
-      }
-      mem += s[i];
+  for (int i = 2; i < str.size(); i += 2) {
+    if (str[i - 1] == '+') {
+      sum += isPlus ? stoi(mem) : stoi(mem) * -1;
+      isPlus = true;
+      mem = "";
+    } else if (str[i - 1] == '-') {
+      sum += isPlus ? stoi(mem) : stoi(mem) * -1;
+      isPlus = false;
+      mem = "";
     }
-    sum += isPlus ? stoi(mem) : stoi(mem) * -1;
-    if (sum == 0) ans[n].push_back(s);
+    mem += str[i];
   }
+  sum += isPlus ? stoi(mem) : stoi(mem) * -1;
+  if (sum == 0) cout << str << "\n";
 }
-void solve() {
-  cin >> n;
-  if (ans[n].empty()) calc();
-  for (string str : ans[n]) {
-    cout << str << "\n";
+
+void BT(int i = 1) {
+  str += (i + '0');
+  if (i < n) {
+    str += ' ';
+    BT(i + 1);
+    str.pop_back();
+
+    str += '+';
+    BT(i + 1);
+    str.pop_back();
+
+    str += '-';
+    BT(i + 1);
+    str.pop_back();
   }
+  if (i == n) check();
+  str.pop_back();
 }
 
 int main() {
@@ -61,9 +50,9 @@ int main() {
 
   int T;
   cin >> T;
-  makeSet();
   while (T--) {
-    solve();
+    cin >> n;
+    BT();
     cout << "\n";
   }
 }
