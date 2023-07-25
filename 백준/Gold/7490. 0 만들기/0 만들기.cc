@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+const char ops[3] = {' ', '+', '-'};
 int n;
 string str = "";
 
@@ -11,37 +12,28 @@ void check() {
   bool isPlus = true;
 
   for (int i = 2; i < str.size(); i += 2) {
-    if (str[i - 1] == '+') {
-      sum += isPlus ? stoi(mem) : stoi(mem) * -1;
-      isPlus = true;
+    char op = str[i - 1];
+    if (op != ' ') {
+      sum += isPlus ? stoi(mem) : -stoi(mem);
       mem = "";
-    } else if (str[i - 1] == '-') {
-      sum += isPlus ? stoi(mem) : stoi(mem) * -1;
-      isPlus = false;
-      mem = "";
+      isPlus = op == '+';
     }
     mem += str[i];
   }
-  sum += isPlus ? stoi(mem) : stoi(mem) * -1;
+  sum += isPlus ? stoi(mem) : -stoi(mem);
   if (sum == 0) cout << str << "\n";
 }
 
 void BT(int i = 1) {
   str += (i + '0');
-  if (i < n) {
-    str += ' ';
-    BT(i + 1);
-    str.pop_back();
-
-    str += '+';
-    BT(i + 1);
-    str.pop_back();
-
-    str += '-';
-    BT(i + 1);
-    str.pop_back();
-  }
   if (i == n) check();
+  if (i < n) {
+    for (char op : ops) {
+      str += op;
+      BT(i + 1);
+      str.pop_back();
+    }
+  }
   str.pop_back();
 }
 
