@@ -7,8 +7,9 @@ cd $RELATIVE_DIR
 SHELL_PATH=`pwd -P`
 
 ## deletion
-find ${SHELL_PATH} -mtime +7 -not -path "${SHELL_PATH}/remove.sh" -not -path "${SHELL_PATH}/default.cpp" -delete
+find ${SHELL_PATH} -mtime +7 -not -path "${SHELL_PATH}/remove.sh" -not -path "${SHELL_PATH}/default.cpp" -not -path "${SHELL_PATH}/Default.java" -delete
 find ${SHELL_PATH} -type f -not -name "*.*" -delete
+find ${SHELL_PATH} -type f -name "*.class" -delete
 find ${SHELL_PATH} -name 'tempCodeRunner*' -delete
 
 ## .zsh_history optimization
