@@ -2,8 +2,8 @@
 using namespace std;
 
 int n;
-map<string, string> p;
-map<string, int> h;
+unordered_map<string, string> p;
+unordered_map<string, int> h;
 
 string find_root(string s1) {
   if (p[s1] == "") return s1;
@@ -23,8 +23,8 @@ int union_root(string s1, string s2) {
 }
 
 void solve() {
-  p = map<string, string>();
-  h = map<string, int>();
+  p = unordered_map<string, string>();
+  h = unordered_map<string, int>();
 
   cin >> n;
 
