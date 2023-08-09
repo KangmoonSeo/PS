@@ -3,19 +3,13 @@ using namespace std;
 
 int n, m;
 
-vector<int> bt;
-void BT(int TTL = 0) {
+void BT(string str = "", int TTL = 0) {
   if (TTL == m) {
-    for (int it : bt) {
-      cout << it << " ";
-    }
-    cout << "\n";
+    cout << str << "\n";
     return;
   }
   for (int i = 1; i <= n; i++) {
-    bt.push_back(i);
-    BT(TTL + 1);
-    bt.pop_back();
+    BT(str + to_string(i) + " ", TTL + 1);
   }
 }
 
