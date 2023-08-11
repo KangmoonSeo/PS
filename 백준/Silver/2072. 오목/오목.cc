@@ -8,7 +8,7 @@ int n, arr[102][102];
 bool check(int y, int x, int color) {
   for (int i = 0; i < 4; i++) {
     int seq = 0;
-    for (int j = n * -1; j <= n; j++) {
+    for (int j = -5; j <= 5; j++) {
       int ny = y + j * dy[i];
       int nx = x + j * dx[i];
       if (nx < 0 || nx > n || ny < 0 || ny > n || arr[ny][nx] != color) {
