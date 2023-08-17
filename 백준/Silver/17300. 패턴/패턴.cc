@@ -3,30 +3,31 @@ using namespace std;
 typedef pair<int, int> pii;
 int n;
 bool visited[10] = {};
-vector<pair<pii, int> > vec;
+vector<pii> vec;
 
-void make_vec() {
-  vec.push_back({{1, 3}, 2}), vec.push_back({{1, 7}, 4});
-  vec.push_back({{1, 9}, 5}), vec.push_back({{2, 8}, 5});
-  vec.push_back({{3, 7}, 5}), vec.push_back({{4, 6}, 5});
-  vec.push_back({{3, 9}, 6}), vec.push_back({{7, 9}, 8});
+void init() {
+  vec.push_back({1, 3}), vec.push_back({1, 7});
+  vec.push_back({1, 9}), vec.push_back({2, 8});
+  vec.push_back({3, 7}), vec.push_back({4, 6});
+  vec.push_back({3, 9}), vec.push_back({7, 9});
 }
+
 bool check(int u, int v) {
   if (u > v) swap(u, v);
-  for (auto it : vec) {
-    pii p = it.first;
-    if (p.first == u && p.second == v && !visited[it.second]) return false;
+  for (pii p : vec) {
+    if (p.first == u && p.second == v && !visited[(p.first + p.second) / 2])
+      return false;
   }
   return true;
 }
+
 void solve() {
-  make_vec();
+  init();
   bool ans = true;
   int x, mem = 0;
-  for (int i = 0; i < n; i++) {
+  while (n--) {
     cin >> x;
-    if (visited[x]) ans = false;
-    if (!check(mem, x)) ans = false;
+    if (visited[x] || !check(mem, x)) ans = false;
     visited[x] = true;
     mem = x;
   }
