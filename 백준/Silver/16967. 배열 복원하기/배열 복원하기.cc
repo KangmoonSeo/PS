@@ -4,15 +4,6 @@ using namespace std;
 int h, w, x, y;
 int arr[601][601] = {};
 
-void solve() {
-  for (int j = 0; j < h; j++) {
-    for (int i = 0; i < w; i++) {
-      cout << arr[j][i] << " ";
-    }
-    cout << "\n";
-  }
-}
-
 int main() {
   ios::sync_with_stdio(false), cin.tie(0), cout.tie(0); /* FastIO */
 
@@ -25,6 +16,4 @@ int main() {
     }
     if (j < h) cout << "\n";
   }
-
-  // solve();
 }
