@@ -4,35 +4,37 @@ using namespace std;
 int n, m, arr[101][101];
 
 void solve() {
-  int xy = 0, yz = 0, zx = 0;
+  int xy = 0, yz = 0, zx = 0, mem, v;
   xy = 2 * n * m;
-  int mem = 0;
   for (int j = 0; j < n; j++) {
     mem = 0;
     for (int i = 0; i < m; i++) {
-      if (arr[j][i] > mem) yz += arr[j][i] - mem;
-      mem = arr[j][i];
+      v = arr[j][i];
+      if (v > mem) yz += v - mem;
+      mem = v;
     }
     mem = 0;
     for (int i = m - 1; i >= 0; i--) {
-      if (arr[j][i] > mem) yz += arr[j][i] - mem;
-      mem = arr[j][i];
+      v = arr[j][i];
+      if (v > mem) yz += v - mem;
+      mem = v;
     }
   }
   for (int i = 0; i < m; i++) {
     mem = 0;
     for (int j = 0; j < n; j++) {
-      if (arr[j][i] > mem) zx += arr[j][i] - mem;
-      mem = arr[j][i];
+      v = arr[j][i];
+      if (v > mem) zx += v - mem;
+      mem = v;
     }
     mem = 0;
     for (int j = n - 1; j >= 0; j--) {
-      if (arr[j][i] > mem) zx += arr[j][i] - mem;
-      mem = arr[j][i];
+      v = arr[j][i];
+      if (v > mem) zx += v - mem;
+      mem = v;
     }
   }
-  int ans = xy + yz + zx;
-  cout << ans << "\n";
+  cout << xy + yz + zx << "\n";
 }
 
 int main() {
@@ -44,6 +46,5 @@ int main() {
       cin >> arr[j][i];
     }
   }
-
   solve();
 }
