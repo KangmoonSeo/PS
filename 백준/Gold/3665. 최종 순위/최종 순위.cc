@@ -1,19 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n, m, arr[501], d[501];
+int n, m, u, v, arr[501], d[501];
 bool mat[501][501];
 vector<int> adj[501];
 
 void solve() {
   fill_n(d, 501, 0);
   fill_n(mat[0], 501 * 501, false);
+  fill_n(adj, 501, vector<int>());
 
-  int u, v;
   cin >> n;
-
   for (int i = 1; i <= n; i++) {
-    adj[i] = vector<int>();
     cin >> arr[i];
   }
   for (int i = 1; i <= n; i++) {
@@ -24,7 +22,6 @@ void solve() {
     }
   }
 
-  bool err = false;
   cin >> m;
   while (m--) {
     cin >> u >> v;
@@ -43,13 +40,11 @@ void solve() {
     }
   }
 
+  bool err = false;
   queue<int> q;
   for (int i = 1; i <= n; i++) {
     if (d[i] == 0) q.push(i);
-
-    if (q.size() > 1) {
-      err = true;
-    }
+    if (q.size() > 1) err = true;
   }
 
   vector<int> ans;
@@ -71,7 +66,7 @@ void solve() {
     cout << "IMPOSSIBLE\n";
     return;
   }
-  for (auto it : ans) {
+  for (int it : ans) {
     cout << it << " ";
   }
   cout << "\n";
