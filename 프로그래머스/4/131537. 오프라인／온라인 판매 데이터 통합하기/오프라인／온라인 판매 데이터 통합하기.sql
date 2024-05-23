@@ -1,12 +1,14 @@
-(
-    SELECT date_format(sales_date, '%Y-%m-%d') as sales_date, product_id, user_id, sales_amount 
-    from online_sale 
-    where sales_date like '2022-03%'
-)
-union 
-(
-    select date_format(sales_date, '%Y-%m-%d') as sales_date, product_id, NULL as user_id, sales_amount
-    from offline_sale
-    where sales_date like '2022-03%'
-)
-order by sales_date asc, product_id asc, user_id asc
+SELECT 
+    date_format(sales_date, '%Y-%m-%d') AS sales_date,
+    product_id,
+    user_id,
+    sales_amount
+FROM (
+    SELECT sales_date, product_id, user_id, sales_amount
+    FROM online_sale
+    UNION ALL
+    SELECT sales_date, product_id, NULL AS user_id, sales_amount
+    FROM offline_sale
+) AS combined_sales
+WHERE sales_date BETWEEN '2022-03-01' AND '2022-03-31'
+ORDER BY sales_date ASC, product_id ASC, user_id ASC;
