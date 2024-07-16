@@ -8,10 +8,10 @@ bitset<32> to_bitset(string str) {
   string buf;
 
   int val = 0b0;
-  for (auto c : str) {
+  for (char c : str) {
     if (c == '.') {
       val += stoi(buf);
-      val = val << 8;
+      val <<= 8;
       buf = "";
     } else {
       buf += c;
@@ -25,17 +25,14 @@ bitset<32> to_bitset(string str) {
 
 string to_addr(bitset<32> bset) {
   string addr = "";
-
-  auto it = bset.to_ullong();
+  unsigned long it = bset.to_ulong();
 
   for (int i = 0; i < 4; i++) {
     int val = it % 256;
-
     addr = to_string(val) + addr;
     if (i < 3) addr = "." + addr;
-    it /= 256;
+    it >>= 8;
   }
-
   return addr;
 }
 
@@ -46,28 +43,31 @@ void solve() {
     vec.push_back(to_bitset(input));
   }
 
-  bitset<32> mask = bitset<32>(0b11111111111111111111111111111111);
+  bitset<32> mask = bitset<32>();
+  mask.set();
 
   for (int i = 0; i < n; i++) {
     bitset<32> bset_i = vec[i];
     for (int j = i + 1; j < n; j++) {
       bitset<32> bset_j = vec[j];
-      bitset<32> val = ~(bset_i ^ bset_j);
       mask = ~(bset_i ^ bset_j) & mask;
     }
   }
 
-  bitset<32> ret_mask = bitset<32>();
-
+  // mask zero padding 정제
+  bool flag = false;
   for (int i = 31; i >= 0; i--) {
-    if (!mask.test(i)) break;
-    ret_mask[i] = 0b1;
+    if (flag) {
+      mask[i] = 0b0;
+      continue;
+    }
+    if (!mask.test(i)) flag = true;
   }
 
-  bitset<32> nw_addr = vec[0] & ret_mask;
+  bitset<32> nw_addr = vec[0] & mask;
 
   cout << to_addr(nw_addr) << "\n";
-  cout << to_addr(ret_mask) << "\n";
+  cout << to_addr(mask) << "\n";
 }
 
 int main() {
