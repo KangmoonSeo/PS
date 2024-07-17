@@ -2,39 +2,34 @@
 using namespace std;
 
 int n, m;
-bitset<11> solves[11];
-bitset<11> answer;
 
 vector<vector<int>> generate_sequences(int num = 0) {
-  vector<vector<int>> result;
+  vector<vector<int>> ret;
 
   if (num == 1) {
     for (int i = 1; i <= m; ++i) {
-      result.push_back({i});
+      ret.push_back({i});
     }
-    return result;
+    return ret;
   }
 
-  // 재귀적으로 num-1 길이의 시퀀스 생성
-  auto prev_sequences = generate_sequences(num - 1);
+  auto prev_sequences = generate_sequences(num - 1);  // recursive
 
-  // 각 이전 시퀀스에 대해 새로운 숫자 추가
-  for (const auto seq : prev_sequences) {
-    int last = seq.back();
-    for (int i = last + 1; i <= m; ++i) {
+  for (auto seq : prev_sequences) {
+    int init = seq.back();
+
+    for (int i = init + 1; i <= m; ++i) {
       vector<int> new_seq = seq;
       new_seq.push_back(i);
-      result.push_back(new_seq);
+      ret.push_back(new_seq);
     }
   }
 
-  return result;
+  return ret;
 }
 
 void solve() {
-  for (int i = 1; i <= n; i++) {
-    answer[i] = 0b1;
-  }
+  bitset<11> solves[11];
 
   for (int i = 1; i <= m; i++) {
     int input;
@@ -47,16 +42,20 @@ void solve() {
     }
   }
 
+  bitset<11> answer;  // 원본 정답
+  for (int i = 1; i <= n; i++) {
+    answer[i] = 0b1;
+  }
+
   vector<vector<int>> sequences = generate_sequences(m);
 
   for (int i = 1; i <= m; i++) {
-    auto sequences = generate_sequences(i);  // sequence : [ [1,2], [1,3], ... ]
+    auto sequences = generate_sequences(i);  // sequence: [ [1,2], [1,3], ... ]
 
-    for (auto sequence : sequences) {
-      // sequence : [1,2]
+    for (vector<int> sequence : sequences) {
       bitset<11> cur;
 
-      for (auto idx : sequence) {
+      for (int idx : sequence) {
         auto bitset = solves[idx];
         cur |= bitset;
       }
