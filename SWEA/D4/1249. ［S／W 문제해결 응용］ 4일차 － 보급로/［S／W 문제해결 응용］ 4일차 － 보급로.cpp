@@ -1,48 +1,48 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-typedef pair<int, pair<int, int>> pipii;
-
-int T;
-int n;  // n * n plane
-int arr[102][102] = {};
-int dist[102][102] = {};  // {1, 1} 과의 최소 거리
+typedef pair<int, int> pii;
 
 const int dy[4] = {0, 1, 0, -1};
-const int dx[4] = {-1, 0, 1, 0};
+const int dx[4] = {1, 0, -1, 0};
+
+int n;
+int arr[102][102];
+int dist[102][102];
+bool visited[102][102];
 
 int solve() {
-  cin >> n;
   fill_n(arr[0], 102 * 102, 1e9);
   fill_n(dist[0], 102 * 102, 1e9);
+  fill_n(visited[0], 102 * 102, false);
 
-  string str;
+  cin >> n;
+
   for (int j = 1; j <= n; j++) {
+    string str;
     cin >> str;
-    for (int i = 0; i < n; i++) {
-      arr[j][i + 1] = str[i] - '0';
+    for (int i = 1; i <= n; i++) {
+      arr[j][i] = str[i - 1] - '0';
     }
   }
 
-  priority_queue<pipii, vector<pipii>, greater<pipii>> pq;
+  queue<pii> q;
+  q.push({1, 1});
+  visited[1][1] = true;
+  dist[1][1] = arr[1][1];
 
-  dist[1][1] = 0;
-  pq.push({0, {1, 1}});
-
-  while (!pq.empty()) {
-    int y = pq.top().second.first;
-    int x = pq.top().second.second;
-    pq.pop();
+  while (!q.empty()) {
+    const pii p = q.front();
+    q.pop();
+    int cur = dist[p.first][p.second];
 
     for (int i = 0; i < 4; i++) {
-      int ny = dy[i] + y;
-      int nx = dx[i] + x;
-      if (ny < 1 || ny > n || nx < 1 || nx > n) continue;
-
-      int nxt = dist[y][x] + arr[ny][nx];
+      const int ny = dy[i] + p.first;
+      const int nx = dx[i] + p.second;
+      if (arr[ny][nx] > 1e8) continue;
+      int nxt = cur + arr[ny][nx];
       if (nxt >= dist[ny][nx]) continue;
       dist[ny][nx] = nxt;
-      pq.push({nxt, {ny, nx}});
+      q.push({ny, nx});
     }
   }
 
@@ -52,13 +52,12 @@ int solve() {
 int main() {
   ios::sync_with_stdio(false), cin.tie(0), cout.tie(0); /* FastIO */
 
+
+  int T;
   cin >> T;
-  int aa = 0;
-
-  for (int i = 1; i <= T; i++) {
-    aa = solve();
-
-    cout << "#" << i << " ";
-    cout << aa << "\n";
+  for (int test_case = 1; test_case <= T; test_case++) {
+    /* code */
+    auto ret = solve();
+    cout << "#" << test_case << " " << ret << "\n";
   }
 }
