@@ -13,5 +13,5 @@ find ${SHELL_PATH} -type f -name "*.class" -delete
 find ${SHELL_PATH} -name 'tempCodeRunner*' -delete
 
 ## .zsh_history optimization
-cat ~/.zsh_history | grep -v 'OneDrive' | grep -v '&&' | grep -v 'curl' | grep -v '{' | grep -v '(' | grep -v 'int' | tail -300 > ~/.zsh_history_temp
+cat ~/.zsh_history | grep -v 'OneDrive' | grep -v '&&' | grep -v 'curl' | grep -v '{' | grep -v '(' | grep -v 'int' > ~/.zsh_history_temp
 mv ~/.zsh_history_temp ~/.zsh_history
