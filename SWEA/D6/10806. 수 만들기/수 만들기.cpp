@@ -1,8 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef pair<int, int> pii;
-int n, k;
-int arr[11];
+int n, k, arr[11];
 
 int solve() {
   // 목표: X = 0 -> k 만들기
@@ -35,13 +34,12 @@ int solve() {
 
 int main() {
   ios::sync_with_stdio(false), cin.tie(0), cout.tie(0); /* FastIO */
-  //  freopen("sample_input.txt", "r", stdin);
 
   int T;
   cin >> T;
 
   for (int test_case = 1; test_case <= T; test_case++) {
-    auto ret = solve();
+    int ret = solve();
     cout << "#" << test_case << " " << ret << "\n";
   }
 }
