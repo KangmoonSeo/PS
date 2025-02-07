@@ -9,9 +9,10 @@ bool validate(ll k) { return (n == k * (k + 1) / 2); }
 ll solve() {
   cin >> n;
 
-  long double validator = n * 2 + 0.25;
-  ll k_1 = floor(sqrt(validator));
-  ll k = ceil(sqrt(validator));
+  long double validator = sqrt(n * 2 + 0.25);  // k^2 + k - 2n = 0
+  // k = -1/2 + sqrt(1/4 + n)
+  ll k_1 = floor(validator);
+  ll k = ceil(validator);
 
   if (validate(k_1)) return k_1;
   if (validate(k)) return k;
