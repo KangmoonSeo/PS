@@ -9,22 +9,6 @@ const int dx[4] = {1, 0, -1, 0};
 
 int n, arr[102][102];
 int dist[102][102];
-bool visited[102][102];
-
-void print() {
-  return;
-  for (int j = 1; j <= n; j++) {
-    for (int i = 1; i <= n; i++) {
-      if (dist[j][i] > 1e8) {
-        cout << "x ";
-      } else {
-        cout << dist[j][i] << " ";
-      }
-    }
-    cout << "|\n";
-  }
-  cout << "\n\n";
-}
 
 void dijkstra() {
   priority_queue<pair<int, pii>, vector<pair<int, pii>>,
@@ -33,7 +17,6 @@ void dijkstra() {
 
   dist[1][1] = 0;
   pq.push({dist[1][1], {1, 1}});
-  visited[1][1] = true;
 
   while (!pq.empty()) {
     auto p = pq.top();
@@ -43,22 +26,19 @@ void dijkstra() {
     for (int i = 0; i < 4; i++) {
       int ny = dy[i] + p.second.first;
       int nx = dx[i] + p.second.second;
-      int new_dist = p.first + arr[ny][nx];
       if (arr[ny][nx] > 1e8) continue;
-      if (visited[ny][nx]) continue;
 
-      if (dist[ny][nx] > new_dist) {
-        dist[ny][nx] = new_dist;
-        pq.push({dist[ny][nx], {ny, nx}});
-        visited[ny][nx] = true;
-      }
+      int new_dist = p.first + arr[ny][nx];
+      if (dist[ny][nx] <= new_dist) continue;
+
+      dist[ny][nx] = new_dist;
+      pq.push({dist[ny][nx], {ny, nx}});
     }
   }
 }
 int solve() {
   fill_n(arr[0], 102 * 102, 1e9);
   fill_n(dist[0], 102 * 102, 1e9);
-  fill_n(visited[0], 102 * 102, false);
   cin >> n;
 
   string input;
@@ -69,8 +49,6 @@ int solve() {
     }
   }
   dijkstra();
-
-  print();
   return dist[n][n];
 }
 
