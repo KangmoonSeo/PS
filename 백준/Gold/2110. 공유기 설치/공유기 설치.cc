@@ -6,31 +6,27 @@ int n, c, arr[200001];
 bool condition(int v) {
   int cnt = 1, mem = arr[0];
   for (int i = 1; i < n; i++) {
-    int len = arr[i] - mem;
-    if (len >= v) {  // 설치
+    if (arr[i] - mem >= v) {
       mem = arr[i];
       cnt++;
     }
   }
-  if (cnt < c)
-    return false;
-  else
-    return true;
+  return (cnt >= c);
+}
+
+int bsearch(int l, int r) {
+  if (l > r) return r;
+  int mid = (l + r) / 2;
+  if (condition(mid)) {
+    return bsearch(mid + 1, r);
+  } else {
+    return bsearch(l, mid - 1);
+  }
 }
 
 void solve() {
   sort(arr, arr + n);
-  int l = 0, r = arr[n - 1] - arr[0];
-  while (l <= r) {
-    int mid = (l + r) / 2;
-    if (condition(mid)) {
-      l = mid;
-    } else {
-      r = mid;
-    }
-    if (r - l <= 1) break;
-  }
-  cout << (condition(r) ? r : l) << "\n";
+  cout << bsearch(0, arr[n - 1] - arr[0]) << "\n";
 }
 
 int main() {
