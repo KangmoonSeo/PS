@@ -64,48 +64,15 @@ int solve() {
   ll max_time = 2e18;
   ll all_time = bsearch(min_time, max_time);
 
-  // 10 5 3 2 2
-
-  /**
-   * n=22, m=5
-   * t|1 2 3 4 5
-   * -------------
-   * 0 x x x x x | 5
-   * 1 x - - - - | 6
-   * 2 x x - - - | 8
-   * 3 x - x - - | 10
-   * 4 x x - x - | 13
-   * 5 x - - - x | 16
-   * 6 x x x - - | 18
-   * 7 x - - - - | 19
-   * 8 x x - x - | 22
-   */
-  /**
-   * n=24, m=5
-   * t|1 2 2 4 4
-   * -------------
-   * 0 x x x x x | 5
-   * 1 x - - - - | 6
-   * 2 x x x - - | 9
-   * 3 x - - - - | 10
-   * 4 x x x x x | 15
-   * 5 x - - - - | 16
-   * 6 x x x - - | 19
-   * 7 x - - - - | 20
-   * 8 x x x x|x | 25 (24 fin)
-   */
-
   int ans = -1;
-  int cnt = 0;
-  // t == 0
-  cnt += m;
+  int cnt = m;  // t = 0
 
   // t in [1, all_time - 1]
   for (int i = 0; i < m; i++) {
     cnt += (all_time - 1) / arr[i];
   }
 
-  // t == all_time
+  // t = all_time
   for (int i = 0; i < m; i++) {
     if (all_time % arr[i] == 0) {
       cnt++;
