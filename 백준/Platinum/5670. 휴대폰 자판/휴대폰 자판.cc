@@ -3,20 +3,19 @@ using namespace std;
 int n;
 
 struct Node {
-  Node* children['z' - 'a' + 1] = {nullptr};
+  Node* children['z' - 'a' + 1];
   int children_size = 0;
   bool isEnd = false;
 };
 
-const int MAX_NODES = 800001;
+const int MAX_NODES = 400001;
 Node node_pool[MAX_NODES];
 int node_cnt = 0;
 
 Node* get_node() {
-  // 새로운 노드 할당
   Node* new_node = &node_pool[node_cnt++];
 
-  // 초기화
+  // new Node()
   for (int i = 0; i < ('z' - 'a' + 1); i++) {
     new_node->children[i] = nullptr;
   }
