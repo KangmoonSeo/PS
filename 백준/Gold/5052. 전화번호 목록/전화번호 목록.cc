@@ -37,10 +37,6 @@ bool register_number(Node* root, string s) {
 }
 
 /**
- *
- * @brief "일관성"
- *
- *
  * @returns
  * '일관성'이 있는가? -> "YES" or "NO"
  */
@@ -51,11 +47,12 @@ string solve() {
   bool is_consistant = true;
   for (int i = 0; i < n; i++) {
     cin >> input;
+    if (!is_consistant) continue;
     is_consistant &= register_number(root, input);
   }
 
   if (is_consistant) {
-    // '일관성'이 있는 단어집
+    // '일관성'이 있는 단어집인지
     return "YES";
   } else {
     return "NO";
