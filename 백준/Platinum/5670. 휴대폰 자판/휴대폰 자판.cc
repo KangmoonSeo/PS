@@ -78,6 +78,6 @@ int main() {
 
   while (cin >> n) {
     double ans = solve();
-    printf("%.2f\n", ans);
+    cout << fixed << setprecision(2) << ans << "\n";
   }
 }
