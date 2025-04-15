@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAX_COUPON 10
+#define MAX_COUPON 101
 int n, m;
 int not_visited[101];
 int dp[101][MAX_COUPON];
@@ -9,19 +9,13 @@ int dp[101][MAX_COUPON];
 /**
  * n: 수영이의 여름방학의 일수
  * m: 수영이가 리조트에 갈 수 없는 날의 수
- *
- * arr: 수영이가 리조트에 갈 수 없는 날짜, arr번째
- *
- * @brief 가격표
- *
+ * not_visited: 수영이가 리조트에 갈 수 없는 날짜, arr번째
  *
  * @returns
  * (int): 주어진 입력에서 제시된 날을 제외한 나머지 날 모두
  *     리조트에 입장하기 위해서 지불해야 하는 비용의 최솟값
  */
 int solve() {
-  // function works here
-  //
   int input;
   for (int i = 0; i < m; i++) {
     cin >> input;
@@ -35,12 +29,22 @@ int solve() {
 
   // i>0
   for (int i = 1; i <= n; i++) {
-    // 하루 이용권 구매
-    for (int j = 0; j < MAX_COUPON; j++) {
-      if (not_visited[i]) {
-        dp[i][j] = dp[i - 1][j] + 0;
-      } else {
-        dp[i][j] = dp[i - 1][j] + 10000;
+    if (not_visited[i]) {
+      for (int j = 0; j < MAX_COUPON; j++) {
+        dp[i][j] = dp[i - 1][j];
+      }
+      //
+    } else {
+      // 하루 이용권 구매
+      for (int j = 0; j < MAX_COUPON; j++) {
+        dp[i][j] = min(dp[i][j], dp[i - 1][j] + 10000);
+      }
+
+      // 쿠폰 사용
+      for (int j = 3; j < MAX_COUPON; j++) {
+        if (dp[i - 1][j] < 1e9) {
+          dp[i][j - 3] = min(dp[i][j - 3], dp[i - 1][j]);
+        }
       }
     }
 
@@ -57,21 +61,13 @@ int solve() {
         dp[i][j] = min(dp[i][j], dp[i - 5][j - 2] + 37000);
       }
     }
-
-    // 쿠폰 사용
-    if (!not_visited[i]) {
-      for (int j = 3; j < MAX_COUPON; j++) {
-        if (dp[i - 1][j] < 1e9) {
-          dp[i][j - 3] = min(dp[i][j - 3], dp[i - 1][j]);
-        }
-      }
-    }
   }
   int ans = 1e9;
 
   for (int j = 0; j < MAX_COUPON; j++) {
     ans = min(ans, dp[n][j]);
   }
+  if (ans > 1e8) return 0;
   return ans;
 }
 
